@@ -1,25 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import { db } from './firebaseConection';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          <code>WheyInBox Suplementos</code>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { BrowserRouter } from 'react-router-dom';
+import RoutesApp from './routes';
+
+export default function App(){
+  return(
+    <BrowserRouter>
+      <RoutesApp/>
+    </BrowserRouter>
+  )
 }
-
-export default App;
