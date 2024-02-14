@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import './home.css';
 
+import Logo from '../../assets/Logo.png';
+
 import {Link} from 'react-router-dom';
 
 export default function Home(){
@@ -8,10 +10,19 @@ export default function Home(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+
+    
+
+
     return(
       <div className='home-container'>
-        <h1>WheyInBox</h1>
-        <span>A sua loja online de suplementos</span>
+
+        <div className='login-area'>
+            <img src={Logo}/>
+        </div>
+      
+        {/*   <h1>WheyInBox</h1> */}
+        {/* <span>A sua loja online de suplementos</span> */}
         <form className='form'>
           <input
             type='text'
