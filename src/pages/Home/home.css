@@ -9,10 +9,12 @@
 .home-container h1{
     font-size: 48px;
     margin-bottom: 8px;
+    color: #FFF;
 }
 
 .home-container span{
     margin-bottom: 28px;
+    color: #FFF;
 }
 
 .form{
