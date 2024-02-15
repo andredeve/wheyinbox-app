@@ -9,13 +9,13 @@ export default function SignIn(){
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { signIn } = useContext(AuthContext);
+    const { signIn, loadingauth } = useContext(AuthContext);
 
 
-    function handlerSubmit(e){
+    async function handlerSubmit(e){
         e.preventDefault();
         if (email !== '' && password !== ''){
-            signIn(email, password);
+           await signIn(email, password);
         }
     }
 
@@ -42,7 +42,7 @@ export default function SignIn(){
             onChange={(e) => setPassword(e.target.value)}
          />
         
-        <button type='submit'>Entrar</button>
+        <button type='submit'>{loadingauth ? 'Carregando...' : 'Entrar'}</button>
         </form>
 
         <Link
