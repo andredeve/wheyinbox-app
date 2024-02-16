@@ -1,0 +1,75 @@
+/* Estilos para o componente Header */
+header {
+    background-color: #f2f2f2;
+    color: #fff;
+    padding: 10px 20px;
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 800px; /* Defina o máximo de largura para o conteúdo */
+    margin: 0 auto; /* Centralize na tela */
+  }
+  
+  .logo-container {
+    margin-right: auto; /* Mova o logo-container para a esquerda */
+    padding-top: 28px;
+  }
+
+  .logo-container img{
+    width: 150x;
+    height: 80px;
+  }
+  
+  .hamburger-button,
+  .cart-button,
+  .logout-button {
+    background-color: transparent;
+    border: none;
+    color: #000;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 10px;
+  }
+  
+  .search-container {
+    position: relative;
+    margin-left: 10px;
+  }
+  
+  .search-bar {
+    padding: 8px 30px 8px 35px; /* Aumentei o padding à direita para acomodar o ícone do QR code */
+    border-radius: 40px;
+    border: 1px solid #fff;
+    min-width: 150px;
+    width: 500px;
+    height: 40px;
+    flex-grow: 1;
+  }
+  
+  .qrcode-icon {
+    position: absolute;
+    right: 95%;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #000; /* Cor do ícone */
+    cursor: pointer;
+  }
+  
+  /* Estilizando os botões */
+  .cart-button,
+  .logout-button {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+  
+  /* Hover */
+  .hamburger-button:hover,
+  .cart-button:hover,
+  .logout-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
