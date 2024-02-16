@@ -7,6 +7,7 @@ import logo5 from '../../assets/logo5.png';
 import logo6 from '../../assets/logo6.png';
 import './marcas.css'; // Importe o CSS para estilização
 
+//teste
 function Marcas() {
   return (
     <div className="brand-grid-container"> 
