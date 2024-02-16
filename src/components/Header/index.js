@@ -17,11 +17,9 @@ export default function Header(){
     return(
         <header>
             <div className="header-content">
-                
                 <div className="logo-container">
                     <img src={Logo} alt="Logo" className="logo" />
                 </div>
-
                 <button className="hamburger-button">
                     <FontAwesomeIcon icon={faBars} />
                 </button>
@@ -32,7 +30,7 @@ export default function Header(){
                 <button className="cart-button">
                     <FontAwesomeIcon icon={faShoppingCart} /> Carrinho
                 </button>
-                <button className="logout-button">
+                <button className="logout-button" onClick={logout}>
                     <FontAwesomeIcon icon={faUser} /> Sair
                 </button>
             </div>
