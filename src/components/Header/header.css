@@ -27,6 +27,7 @@ header {
   .cart-button,
   .logout-button {
     background-color: transparent;
+    text-decoration: none;
     border: none;
     color: #000;
     cursor: pointer;

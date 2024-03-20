@@ -5,6 +5,7 @@ import { faShoppingCart, faUser, faQrcode } from '@fortawesome/free-solid-svg-ic
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../../contexts/auth';
 import Logo from '../../assets/Logo.png';
+import {Link} from 'react-router-dom';
 
 export default function Header(){
 
@@ -27,9 +28,21 @@ export default function Header(){
                     <FontAwesomeIcon icon={faQrcode} className="qrcode-icon" />
                     <input type="text" placeholder="Ache seu suplemento" className="search-bar" />
                 </div>
-                <button className="cart-button">
+
+                <Link
+                    className="cart-button"
+                    to="/carrinho"
+                >
                     <FontAwesomeIcon icon={faShoppingCart} /> Carrinho
-                </button>
+                </Link>
+
+                <Link
+                    className="cart-button"
+                    to="/qrcodescann"
+                >
+                    <FontAwesomeIcon icon={faShoppingCart} /> QR CODE
+                </Link>
+
                 <button className="logout-button" onClick={logout}>
                     <FontAwesomeIcon icon={faUser} /> Sair
                 </button>

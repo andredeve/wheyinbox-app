@@ -4,13 +4,11 @@ import Logo from '../../assets/Logo.png';
 import {Link} from 'react-router-dom';
 import { AuthContext } from '../../contexts/auth';
 
-
 export default function SignIn(){
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { signIn, loadingauth } = useContext(AuthContext);
-
 
     async function handlerSubmit(e){
         e.preventDefault();
