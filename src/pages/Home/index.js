@@ -12,7 +12,7 @@ export default function Home(){
   return(
     <div>
       <Header/>
-      <h3 className="grid-title">Minha informações {user.nome}</h3> 
+      <h3 className="grid-title">Minha informações - {user.nome}</h3> 
     </div>
   )
 }
