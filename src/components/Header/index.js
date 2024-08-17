@@ -21,28 +21,7 @@ export default function Header(){
                 <div className="logo-container">
                     <img src={Logo} alt="Logo" className="logo" />
                 </div>
-                <button className="hamburger-button">
-                    <FontAwesomeIcon icon={faBars} />
-                </button>
-                <div className="search-container">
-                    <FontAwesomeIcon icon={faQrcode} className="qrcode-icon" />
-                    <input type="text" placeholder="Ache seu suplemento" className="search-bar" />
-                </div>
-
-                <Link
-                    className="cart-button"
-                    to="/carrinho"
-                >
-                    <FontAwesomeIcon icon={faShoppingCart} /> Carrinho
-                </Link>
-
-                <Link
-                    className="cart-button"
-                    to="/qrcodescann"
-                >
-                    <FontAwesomeIcon icon={faShoppingCart} /> QR CODE
-                </Link>
-
+            
                 <button className="logout-button" onClick={logout}>
                     <FontAwesomeIcon icon={faUser} /> Sair
                 </button>
