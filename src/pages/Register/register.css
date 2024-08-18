@@ -1,65 +1,59 @@
-.home-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
-
-.home-container h1 {
-    font-size: 48px;
-    margin-bottom: 8px;
-}
-
-.home-container span {
-    margin-bottom: 28px;
-}
-
-.form {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    max-width: 600px;
-}
-
-.form select {
-    border: 0;
-    margin-bottom: 12px;
-    height: 36px;
-    border-radius: 4px;
-    padding: 0 8px;
-    background-color: #f0f0f0;
-    font-size: 16px;
-    color: #333;
-}
-
-.link {
-    margin-left: 5px; /* Ajuste o valor para o espaçamento desejado */
-    color: #5e87b8;
-    text-decoration: none;
-}
+.ranking-container {
+    padding: 20px;
+  }
   
-.form button {
-    height: 36px;
-    border: 0;
-    border-radius: 4px;
-    background-color: #5e87b8;
-    color: #FFF;
-    font-size: 18px;
-}
-
-.button-link {
-    color: #FFF;
-    text-decoration: none;
-    margin: 14px 0;
-    font-size: 14px;
-}
-
-.login-area {
-    background-color: #000;
-}
-
-.login-area img {
-    width: 300px;
-    height: 150px;
-}
+  .ranking-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .ranking-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Espaço entre as seções */
+  }
+  
+  .ranking-section {
+    flex: 1; /* Permite que as seções ocupem espaço igual */
+    padding: 20px;
+    background-color: #ffffff; /* Fundo branco */
+    border-radius: 8px; /* Cantos arredondados */
+    border: 1px solid #fff; /* Borda leve */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Efeito de sombreamento */
+    transition: box-shadow 0.3s ease; /* Transição suave para o efeito de sombreamento */
+  }
+  
+  .ranking-section:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Aumenta o sombreamento ao passar o mouse */
+  }
+  
+  .ranking-subtitle {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .ranking-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .ranking-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .ranking-position {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  
+  .city-name {
+    margin-right: 10px;
+  }
+  
+  .city-count {
+    color: #666;
+  }
+  

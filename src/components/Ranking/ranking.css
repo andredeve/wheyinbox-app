@@ -1,50 +1,55 @@
-/* ranking.css */
-
 .ranking-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .ranking-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .ranking-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .ranking-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .ranking-item:last-child {
-    border-bottom: none;
-  }
-  
-  .ranking-position {
-    font-weight: bold;
-    color: #ca8217;
-  }
-  
-  .city-name {
-    font-size: 18px;
-    color: #333;
-  }
-  
-  .city-count {
-    font-size: 16px;
-    color: #666;
-  }
-  
+  padding: 20px;
+}
+
+.ranking-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.ranking-content {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f8f8f8;
+  gap: 20px; /* Espaço entre as seções */
+}
+
+.ranking-section {
+  flex: 1; /* Permite que as seções ocupem espaço igual */
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.ranking-subtitle {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.ranking-list {
+  list-style: none;
+  padding: 0;
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.ranking-position {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.city-name {
+  margin-right: 10px;
+}
+
+.city-count {
+  color: #666;
+}

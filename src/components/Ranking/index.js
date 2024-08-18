@@ -4,11 +4,13 @@ import { collection, getDocs } from "firebase/firestore";
 import './ranking.css';
 
 export default function Ranking({ fetchCityRanking }) {
-  const [ranking, setRanking] = useState([]);
+  const [firstOptionRanking, setFirstOptionRanking] = useState([]);
+  const [secondOptionRanking, setSecondOptionRanking] = useState([]);
 
   // Função para buscar o ranking das cidades
   async function fetchRanking() {
-    const citiesCount = {};
+    const firstOptionCount = {};
+    const secondOptionCount = {};
     const querySnapshot = await getDocs(collection(db, "users"));
 
     querySnapshot.forEach((doc) => {
@@ -17,21 +19,29 @@ export default function Ranking({ fetchCityRanking }) {
       const segundaOpcao = data.cidadesegunda;
 
       if (primeiraOpcao) {
-        citiesCount[primeiraOpcao] = (citiesCount[primeiraOpcao] || 0) + 1;
+        firstOptionCount[primeiraOpcao] = (firstOptionCount[primeiraOpcao] || 0) + 1;
       }
       if (segundaOpcao) {
-        citiesCount[segundaOpcao] = (citiesCount[segundaOpcao] || 0) + 1;
+        secondOptionCount[segundaOpcao] = (secondOptionCount[segundaOpcao] || 0) + 1;
       }
     });
 
-    const sortedCities = Object.keys(citiesCount)
+    const sortedFirstOptionCities = Object.keys(firstOptionCount)
       .map((city) => ({
         name: city,
-        count: citiesCount[city],
+        count: firstOptionCount[city],
       }))
       .sort((a, b) => b.count - a.count);
 
-    setRanking(sortedCities);
+    const sortedSecondOptionCities = Object.keys(secondOptionCount)
+      .map((city) => ({
+        name: city,
+        count: secondOptionCount[city],
+      }))
+      .sort((a, b) => b.count - a.count);
+
+    setFirstOptionRanking(sortedFirstOptionCities);
+    setSecondOptionRanking(sortedSecondOptionCities);
   }
 
   useEffect(() => {
@@ -40,18 +50,39 @@ export default function Ranking({ fetchCityRanking }) {
 
   return (
     <div className="ranking-container">
-      <h3 className="ranking-title">Ranking de Escolhas das Cidades</h3>
-      <ul className="ranking-list">
-        {ranking.map((city, index) => (
-          <li key={index} className="ranking-item">
-            <span className="ranking-position">{index + 1}º</span>
-            <span className="city-name">{city.name}</span>
-            <span className="city-count">
-              {city.count} {city.count === 1 ? "escolha" : "escolhas"}
-            </span>
-          </li>
-        ))}
-      </ul>
+      <h1 className="ranking-title">Ranking das Cidades</h1>
+      
+      <div className="ranking-content">
+        <div className="ranking-section">
+          <h4 className="ranking-subtitle">1ª Opção</h4>
+          <ul className="ranking-list">
+            {firstOptionRanking.map((city, index) => (
+              <li key={index} className="ranking-item">
+                <span className="ranking-position">{index + 1}º</span>
+                <span className="city-name">{city.name}</span>
+                <span className="city-count">
+                  {city.count} {city.count === 1 ? "escolha" : "escolhas"}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="ranking-section">
+          <h4 className="ranking-subtitle">2ª Opção</h4>
+          <ul className="ranking-list">
+            {secondOptionRanking.map((city, index) => (
+              <li key={index} className="ranking-item">
+                <span className="ranking-position">{index + 1}º</span>
+                <span className="city-name">{city.name}</span>
+                <span className="city-count">
+                  {city.count} {city.count === 1 ? "escolha" : "escolhas"}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
