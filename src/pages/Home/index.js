@@ -6,6 +6,8 @@ import './home.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import RankingPorClassificacao from "../../components/RankingClassificacao";
+
 import { db } from '../../services/firebaseConection';
 import { doc, updateDoc } from 'firebase/firestore';
 
@@ -71,6 +73,9 @@ export default function Home() {
     <div className="container">
       <Header/>
       <Ranking fetchCityRanking={fetchCityRanking} />
+
+      <RankingPorClassificacao/>
+
       <h3 className="grid-title">Minhas Informações - {user.nome}</h3>
 
       <form className="form" onSubmit={handlerSubmit}>
