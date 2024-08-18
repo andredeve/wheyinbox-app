@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/auth";
 import Header from "../../components/Header";
+import Ranking from "../../components/Ranking";
 import './home.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -64,10 +65,12 @@ export default function Home() {
 
   return (
     <div className="container">
-      <Header />
+      <Header/>
+      <Ranking/>
       <h3 className="grid-title">Minhas Informações - {user.nome}</h3>
 
       <form className="form" onSubmit={handlerSubmit}>
+        <label htmlFor="nome" className="label">Nome: </label>
         <input
           type="text"
           placeholder="Nome Completo"
@@ -76,6 +79,7 @@ export default function Home() {
           className="input"
         />
 
+        <label htmlFor="classificacao" className="label">Classificação: </label>
         <input
           type="text"
           placeholder="Classificação"

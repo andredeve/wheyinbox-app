@@ -1,0 +1,50 @@
+/* ranking.css */
+
+.ranking-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .ranking-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .ranking-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .ranking-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .ranking-item:last-child {
+    border-bottom: none;
+  }
+  
+  .ranking-position {
+    font-weight: bold;
+    color: #ca8217;
+  }
+  
+  .city-name {
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .city-count {
+    font-size: 16px;
+    color: #666;
+  }
+  

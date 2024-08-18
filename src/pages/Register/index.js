@@ -40,13 +40,15 @@ export default function Register(){
         </div>
       
         <form className='form' onSubmit={handlerSubmit}>
+          <label htmlFor="nome" className="label">Nome: </label>
           <input
               type='text'
               placeholder='Nome Completo'
               value={nome}
               onChange={(e) => setNome(e.target.value)}
           />
-
+          
+          <label htmlFor="classificacao" className="label">Classificação: </label>
           <input
               type='text'
               placeholder='Classificação'
@@ -83,14 +85,16 @@ export default function Register(){
                 </option>
               ))}
           </select>
-
+          
+          <label htmlFor="email" className="label">E-mail: </label>
           <input
               type='text'
               placeholder='E-mail'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
           />
-
+          
+          <label htmlFor="senha" className="label">Senha: </label>
           <input
               autoComplete={false}
               type='password'
