@@ -4,13 +4,13 @@ import {getFirestore} from 'firebase/firestore';
 import {getStorage} from 'firebase/storage';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAzbDHK6ETp_8KK5sAB5HByWw7m4FRXzTE",
-    authDomain: "wheyinbox.firebaseapp.com",
-    projectId: "wheyinbox",
-    storageBucket: "wheyinbox.appspot.com",
-    messagingSenderId: "157285769024",
-    appId: "1:157285769024:web:8091457311168ecd4224a5",
-    measurementId: "G-XQD16192RR"
+  apiKey: "AIzaSyAu7DxF5dhvKHhhvnN6MwBsaCUtRuATxQg",
+  authDomain: "meucfsd.firebaseapp.com",
+  projectId: "meucfsd",
+  storageBucket: "meucfsd.appspot.com",
+  messagingSenderId: "603243637588",
+  appId: "1:603243637588:web:e84c950e01ca7b572776c1",
+  measurementId: "G-50JWB5FZL8"
 };
 
   const firebaseApp = initializeApp(firebaseConfig);
