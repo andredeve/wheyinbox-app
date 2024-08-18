@@ -9,10 +9,17 @@ import {doc, updateDoc} from 'firebase/firestore';
 
 export default function Home(){
 
-  const [nome, setNome] = useState('');
-  const [classificacao, setClassificacao] = useState('');
-  const [primeiraOpcao, setPrimeiraOpcao] = useState('');
-  const [segundaOpcao, setSegundaOpcao] = useState('');
+  const { user, setUser, storageUser, loadingauth} = useContext(AuthContext);
+  const navigate = useNavigate();
+
+
+  const [nome, setNome] = useState(user && user.nome);
+  const [classificacao, setClassificacao] = useState(user && user.classificacao );
+  const [primeiraOpcao, setPrimeiraOpcao] = useState(user && user.cidadeprimeira);
+  const [segundaOpcao, setSegundaOpcao] = useState(user && user.cidadesegunda);
+
+  console.log(user.classificacao);
+
 
   const cidades = [
     'Nova Andradina',
@@ -23,9 +30,6 @@ export default function Home(){
     'Jardim',
     'Ponta Porã'
   ];
-
-  const { user, setUser, storageUser, loadingauth} = useContext(AuthContext);
-  const navigate = useNavigate();
 
   async function handlerSubmit(e){
       e.preventDefault();

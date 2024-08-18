@@ -120,6 +120,9 @@ function AuthProvider({children}){
             uid: uid,
             nome: docSnap.data().nome,
             email: value.user.email,
+            cidadeprimeira: docSnap.data().cidadeprimeira,
+            cidadesegunda: docSnap.data().cidadesegunda,
+            classificacao: docSnap.data().classificacao,
             avatarUrl: docSnap.data().avatarUrl
           };
           
@@ -158,6 +161,7 @@ function AuthProvider({children}){
                 email: value.user.email,
                 cidadeprimeira: cidadeprimeira,
                 cidadesegunda: cidadesegunda,
+                classificacao: classificacao,
                 avatarUrl: null
               };
     
