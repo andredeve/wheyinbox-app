@@ -33,6 +33,12 @@
     color: #333;
 }
 
+.link {
+    margin-left: 5px; /* Ajuste o valor para o espaçamento desejado */
+    color: #5e87b8;
+    text-decoration: none;
+}
+  
 .form button {
     height: 36px;
     border: 0;

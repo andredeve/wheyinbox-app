@@ -10,6 +10,12 @@
     min-height: 100vh;
 }
 
+.link {
+    margin-left: 5px; /* Ajuste o valor para o espaçamento desejado */
+    color: #5e87b8;
+    text-decoration: none;
+}
+
 .grid-title {
     font-size: 32px;
     margin-bottom: 16px;

@@ -83,7 +83,12 @@ export default function Home() {
           className="input"
         />
 
-        <label htmlFor="classificacao" className="label">Classificação: </label>
+        <label htmlFor="classificacao" className="label">Classificação (De acordo com a   
+            <a href="https://docs.google.com/spreadsheets/d/1lvVJMEKE9whOroYyZJvaxIbcD0vpRqQo/edit#gid=1820733924" target="_blank" rel="noopener noreferrer" className="link">
+            Planilha
+            </a>
+            ): 
+        </label>
         <input
           type="text"
           placeholder="Classificação"
