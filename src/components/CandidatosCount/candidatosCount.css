@@ -1,0 +1,36 @@
+.candidatos-count-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .candidatos-count-column {
+    width: 45%;
+  }
+  
+  .candidatos-count-title {
+    margin-bottom: 10px;
+  }
+  
+  .candidatos-count-subtitle {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+  }
+  
+  .candidatos-count-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .candidatos-count-item {
+    margin-bottom: 5px;
+  }
+  
+  .candidatos-count-city {
+    font-weight: bold;
+  }
+  
+  .candidatos-count-number {
+    margin-left: 5px;
+  }
+  

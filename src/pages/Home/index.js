@@ -5,6 +5,7 @@ import Ranking from "../../components/Ranking";
 import './home.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import CandidatosCount from '../../components/CandidatosCount';
 
 import RankingPorClassificacao from "../../components/RankingClassificacao";
 
@@ -72,6 +73,8 @@ export default function Home() {
   return (
     <div className="container">
       <Header/>
+      <h1>Total de Candidatos que Preencheram</h1>
+      <h4><CandidatosCount/></h4>
       <Ranking fetchCityRanking={fetchCityRanking} />
 
       <RankingPorClassificacao/>
