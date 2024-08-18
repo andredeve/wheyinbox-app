@@ -136,7 +136,7 @@ function AuthProvider({children}){
        })
     }
 
-    async function signUp(email, password, name){
+    async function signUp(email, password, name, classificacao, cidadeprimeira, cidadesegunda){
         setLoadingAuth(true);
     
         await createUserWithEmailAndPassword(auth, email, password)
@@ -145,6 +145,9 @@ function AuthProvider({children}){
     
             await setDoc(doc(db, "users", uid), {
               nome: name,
+              classificacao: classificacao,
+              cidadeprimeira: cidadeprimeira,
+              cidadesegunda: cidadesegunda,
               avatarUrl: null
             })
             .then( () => {
@@ -153,6 +156,8 @@ function AuthProvider({children}){
                 uid: uid,
                 nome: name,
                 email: value.user.email,
+                cidadeprimeira: cidadeprimeira,
+                cidadesegunda: cidadesegunda,
                 avatarUrl: null
               };
     
@@ -187,6 +192,8 @@ function AuthProvider({children}){
             value={{
                 signed: !!user,
                 user,
+                setUser,
+                storageUser,
                 signIn,
                 signUp,
                 logout,
