@@ -1,28 +1,41 @@
 import { useContext } from "react";
-import './header.css'; 
+import './header.css';
 import { AuthContext } from '../../contexts/auth';
 import Logo from '../../assets/Logo.png';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export default function Header(){
+export default function Header() {
+    const { logout } = useContext(AuthContext);
 
-    const {logout} = useContext(AuthContext);
-
-    async function handlerLogout(){
-      await logout();
+    async function handlerLogout() {
+        await logout();
     }
 
-    return(
-        <header>
+    return (
+        <header className="header">
             <div className="header-content">
                 <div className="logo-container">
-                    <img src={Logo} alt="Logo" className="logo" />
+                    <Link to="/">
+                        <img src={Logo} alt="Logo" className="logo" />
+                    </Link>
                 </div>
-            
-                <button className="logout-button" onClick={logout}>
-                     Sair
+{/*                 
+                <nav className="nav-menu">
+                    <ul>
+                        <li>
+                            <Link to="/dashboard">Dashboard</Link>
+                        </li>
+                        <li>
+                            <Link to="/profile">Perfil</Link>
+                        </li>
+                    </ul>
+                </nav> */}
+
+
+                <button className="logout-button" onClick={handlerLogout}>
+                    Sair
                 </button>
             </div>
         </header>
-    )
+    );
 }
