@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../contexts/auth";
 import Header from "../../components/Header";
 import Ranking from "../../components/Ranking";
@@ -18,6 +18,7 @@ export default function Home() {
   const [classificacao, setClassificacao] = useState(user && user.classificacao);
   const [primeiraOpcao, setPrimeiraOpcao] = useState(user && user.cidadeprimeira);
   const [segundaOpcao, setSegundaOpcao] = useState(user && user.cidadesegunda);
+  const [fetchCityRanking, setFetchCityRanking] = useState(false);
 
   const cidades = [
     'Nova Andradina',
@@ -31,7 +32,7 @@ export default function Home() {
 
   async function handlerSubmit(e) {
     e.preventDefault();
-    if (nome !== '' && classificacao !== '' && primeiraOpcao !== '' && segundaOpcao !== '') {
+    if (nome !== '' && classificacao !== '' && primeiraOpcao !== '' && segundaOpcao !== '' && primeiraOpcao !== segundaOpcao && segundaOpcao !== primeiraOpcao ) {
 
       const docRef = doc(db, "users", user.uid);
 
@@ -55,18 +56,21 @@ export default function Home() {
         setUser(data);
         storageUser(data);
         toast.success("Informações Atualizadas!", { className: 'toast-success' });
+        setFetchCityRanking(prev => !prev); // Atualiza o ranking após o salvamento
       })
       .catch((error) => {
         setLoadingAuth(false);
         toast.error("Erro ao atualizar as informações!", { className: 'toast-error' });
       });
+    }else{
+      toast.error("Preencha todos os campos!", { className: 'toast-error' });
     }
   }
 
   return (
     <div className="container">
       <Header/>
-      <Ranking/>
+      <Ranking fetchCityRanking={fetchCityRanking} />
       <h3 className="grid-title">Minhas Informações - {user.nome}</h3>
 
       <form className="form" onSubmit={handlerSubmit}>

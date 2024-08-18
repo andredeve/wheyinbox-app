@@ -3,12 +3,13 @@ import './register.css';
 import Logo from '../../assets/Logo.png';
 import {Link} from 'react-router-dom';
 import { AuthContext } from '../../contexts/auth';
+import { toast } from 'react-toastify';
 
 export default function Register(){
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [classificao, setClassificacao] = useState('');
+    const [classificacao, setClassificacao] = useState('');
     const [primeiraOpcao, setPrimeiraOpcao] = useState('');
     const [segundaOpcao, setSegundaOpcao] = useState('');
 
@@ -27,8 +28,10 @@ export default function Register(){
 
     async function handlerSubmit(e){
         e.preventDefault();
-        if (nome !== '' && email !== '' && password !== ''){
-          await signUp(email, password, nome, classificao, primeiraOpcao, segundaOpcao);
+        if (nome !== '' && email !== '' && password !== '' && classificacao !== '' && primeiraOpcao !== '' && segundaOpcao !== ''){
+          await signUp(email, password, nome, classificacao, primeiraOpcao, segundaOpcao);
+        }else{
+          toast.error("Preencha todos os campos!", { className: 'toast-error' });
         }
     }
 
@@ -52,7 +55,7 @@ export default function Register(){
           <input
               type='text'
               placeholder='Classificação'
-              value={classificao}
+              value={classificacao}
               onChange={(e) => setClassificacao(e.target.value)}
           />
 

@@ -176,6 +176,12 @@ function AuthProvider({children}){
         })
         .catch((error) => {
           console.log(error);
+          if (error == "FirebaseError: Firebase: Error (auth/email-already-in-use)."){
+            toast.error("Erro: E-mail já utilizado.", { className: 'toast-error' });
+          }else{
+            toast.error("Erro: Verifique suas informação!", { className: 'toast-error' }); 
+          }
+         
           setLoadingAuth(false);
         })
     
