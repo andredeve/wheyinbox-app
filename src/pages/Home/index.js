@@ -3,13 +3,14 @@ import { AuthContext } from "../../contexts/auth";
 import Header from "../../components/Header";
 import './home.css';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import {db, storage} from '../../services/firebaseConection';
 import {doc, updateDoc} from 'firebase/firestore';
 
 export default function Home(){
 
-  const { user, setUser, storageUser, loadingauth} = useContext(AuthContext);
+  const { user, setUser, storageUser, loadingauth, setLoadingAuth} = useContext(AuthContext);
   const navigate = useNavigate();
 
 
@@ -17,9 +18,6 @@ export default function Home(){
   const [classificacao, setClassificacao] = useState(user && user.classificacao );
   const [primeiraOpcao, setPrimeiraOpcao] = useState(user && user.cidadeprimeira);
   const [segundaOpcao, setSegundaOpcao] = useState(user && user.cidadesegunda);
-
-  console.log(user.classificacao);
-
 
   const cidades = [
     'Nova Andradina',
@@ -37,19 +35,26 @@ export default function Home(){
 
         const docRef = doc(db, "users", user.uid)
 
-
+        setLoadingAuth(true);
         await updateDoc(docRef, {
           nome: nome,
-          classificacao
+          classificacao: classificacao,
+          cidadeprimeira: primeiraOpcao,
+          cidadesegunda: segundaOpcao
         })
         .then(() =>{
           let data ={
             ...user, 
             nome: nome,
+            classificacao: classificacao,
+            cidadeprimeira: primeiraOpcao,
+            cidadesegunda: segundaOpcao
           }
 
+          setLoadingAuth(false);
           setUser(data);
           storageUser(data);
+          toast.success("Informações Atualizadas!");
         })
       }
   }

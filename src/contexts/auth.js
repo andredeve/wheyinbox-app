@@ -201,6 +201,7 @@ function AuthProvider({children}){
                 signIn,
                 signUp,
                 logout,
+                setLoadingAuth,
                 loadingauth,
                 loading,
                 itens,
