@@ -1028,9 +1028,12 @@ function AuthProvider({children}){
     async function signUp(email, password, name, classificacao, cidadeprimeira, cidadesegunda) {
       setLoadingAuth(true);
     
+      // Remove apenas o último espaço no final do nome, se houver
+      const trimmedName = name.endsWith(' ') ? name.slice(0, -1) : name;
+    
       // Verifica se o nome está na lista de candidatos
-      if (!nomesCandidatos.includes(name)) {
-        toast.error(`Nome "${name}" não está na lista de candidatos!`, { className: 'toast-error' });
+      if (!nomesCandidatos.includes(trimmedName)) {
+        toast.error(`Nome "${trimmedName}" não está na lista de candidatos!`, { className: 'toast-error' });
         setLoadingAuth(false);
         return; // Interrompe o processo de cadastro
       }
@@ -1040,7 +1043,7 @@ function AuthProvider({children}){
         const uid = value.user.uid;
     
         await setDoc(doc(db, "users", uid), {
-          nome: name,
+          nome: trimmedName,
           classificacao: classificacao,
           cidadeprimeira: cidadeprimeira,
           cidadesegunda: cidadesegunda,
@@ -1049,7 +1052,7 @@ function AuthProvider({children}){
     
         let data = {
           uid: uid,
-          nome: name,
+          nome: trimmedName,
           email: value.user.email,
           cidadeprimeira: cidadeprimeira,
           cidadesegunda: cidadesegunda,
@@ -1072,6 +1075,7 @@ function AuthProvider({children}){
         setLoadingAuth(false);
       }
     }
+    
     
     
       function storageUser(data){
