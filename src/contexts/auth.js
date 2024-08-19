@@ -1,7 +1,7 @@
 import {useState, createContext, useEffect} from 'react';
 import {auth, db} from '../services/firebaseConection';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { doc, getDoc, setDoc, collection, getDocs} from 'firebase/firestore';
+import { doc, getDoc, setDoc, collection, getDocs, updateDoc} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -668,8 +668,6 @@ function AuthProvider({children}){
       "Havana Fardim da Gama"
     ];
 
-
-
     const [nomesUsuarios, setNomesUsuarios] = useState([]);
 
     async function fetchNomesUsuarios() {
@@ -707,12 +705,33 @@ function AuthProvider({children}){
       fetchNomesUsuarios();
     }, []);
 
-
-
-
-
-
-
+    // async function atualizarNomesParaMaiusculas() {
+    //   try {
+    //     // Busca todos os documentos da coleção 'users'
+    //     const snapshot = await getDocs(collection(db, 'users'));
+        
+    //     // Percorre todos os documentos
+    //     const updatePromises = snapshot.docs.map(async (docSnap) => {
+    //       const userId = docSnap.id;
+    //       const userData = docSnap.data();
+    
+    //       // Converte o nome para maiúsculas
+    //       const nomeMaiusculo = userData.nome.toUpperCase();
+    
+    //       // Atualiza o documento com o nome em maiúsculas
+    //       const docRef = doc(db, 'users', userId);
+    //       return updateDoc(docRef, { nome: nomeMaiusculo });
+    //     });
+    
+    //     // Aguarda todas as atualizações serem concluídas
+    //     await Promise.all(updatePromises);
+    
+    //     toast.success('Nomes atualizados para maiúsculas com sucesso!', { className: 'toast-success' });
+    //   } catch (error) {
+    //     console.error('Erro ao atualizar nomes:', error);
+    //     toast.error('Erro ao atualizar nomes!', { className: 'toast-error' });
+    //   }
+    // }
 
     const products = [
       {
@@ -875,6 +894,7 @@ function AuthProvider({children}){
         setUser(data);
         storageUser(data);
         toast.success("Bem-vindo de volta!");
+
         navigate("/home");
       } catch (error) {
         console.log(error);
