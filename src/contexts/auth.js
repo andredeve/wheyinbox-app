@@ -1,7 +1,7 @@
 import {useState, createContext, useEffect} from 'react';
 import {auth, db} from '../services/firebaseConection';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { doc, getDoc, setDoc, collection, getDocs, updateDoc} from 'firebase/firestore';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, deleteUser, signOut } from 'firebase/auth';
+import { doc, getDoc,deleteDoc, setDoc, collection, getDocs, updateDoc} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -733,6 +733,79 @@ function AuthProvider({children}){
     //   }
     // }
 
+
+
+    // async function atualizarNomesNaoListados() {
+    //   try {
+    //     // Busca todos os documentos da coleção 'users'
+    //     const snapshot = await getDocs(collection(db, 'users'));
+        
+    //     // Percorre todos os documentos
+    //     const updatePromises = snapshot.docs.map(async (docSnap) => {
+    //       const userId = docSnap.id;
+    //       const userData = docSnap.data();
+    
+    //       // Verifica se o nome do usuário está na lista de candidatos
+    //       if (!nomesCandidatos.includes(userData.nome)) {
+    //         // Nome não encontrado na lista de candidatos, deve ser atualizado
+    //         const nomeCorrigido = "CANDIDATO NÃO ENCONTRADO - CORRIGIR";
+    
+    //         // Atualiza o documento com o novo nome
+    //         const docRef = doc(db, 'users', userId);
+    //         return updateDoc(docRef, { nome: nomeCorrigido });
+    //       }
+    //     });
+    
+    //     // Aguarda todas as atualizações serem concluídas
+    //     await Promise.all(updatePromises);
+    
+    //     toast.success('Nomes não listados atualizados com sucesso!', { className: 'toast-success' });
+    //   } catch (error) {
+    //     console.error('Erro ao atualizar nomes:', error);
+    //     toast.error('Erro ao atualizar nomes!', { className: 'toast-error' });
+    //   }
+    // }
+
+
+    // async function excluirUsuariosNaoEncontrados() {
+    //   const authInstance = getAuth();
+    
+    //   try {
+    //     // Obtém todos os usuários do Firestore
+    //     const snapshot = await getDocs(collection(db, 'users'));
+    //     const usuarios = snapshot.docs;
+    
+    //     for (const usuario of usuarios) {
+    //       const data = usuario.data();
+          
+    //       // Verifica se o nome do usuário é "CANDIDATO NÃO ENCONTRADO - CORRIGIR"
+    //       if (data.nome === 'CANDIDATO NÃO ENCONTRADO - CORRIGIR') {
+    //         const uid = usuario.id;
+    
+    //         // Excluindo o documento do Firestore
+    //         await deleteDoc(doc(db, 'users', uid));
+    //         console.log(`Documento do usuário com ID ${uid} excluído do Firestore.`);
+    
+    //         try {
+    //           // Exclui o usuário do Firebase Authentication usando o UID
+    //           const user = await authInstance.getUser(uid);
+    //           await deleteUser(user);
+    //           console.log(`Usuário com UID ${uid} excluído do Firebase Authentication.`);
+    //         } catch (authError) {
+    //           console.error(`Erro ao excluir usuário com UID ${uid}:`, authError);
+    //           toast.error(`Erro ao excluir usuário com UID ${uid}.`, { className: 'toast-error' });
+    //         }
+    
+    //         toast.info(`Usuário ${data.nome} excluído com sucesso.`, { className: 'toast-info' });
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.error('Erro ao excluir usuários:', error);
+    //     toast.error('Erro ao excluir usuários.', { className: 'toast-error' });
+    //   }
+    // }
+
+
     const products = [
       {
         id: 1,
@@ -894,7 +967,6 @@ function AuthProvider({children}){
         setUser(data);
         storageUser(data);
         toast.success("Bem-vindo de volta!");
-
         navigate("/home");
       } catch (error) {
         console.log(error);
