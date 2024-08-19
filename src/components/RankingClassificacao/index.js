@@ -56,54 +56,52 @@ export default function Ranking({ fetchCityRanking }) {
 
   return (
     <div className="ranking-container">
-      <h1 className="ranking-title">Ranking dos Candidatos por Cidade</h1>
+  <h1 className="ranking-title">Ranking dos Candidatos por Cidade</h1>
 
-      {/* Seção para o layout em colunas */}
-      <div className="ranking-content">
-        <div className="ranking-grid">
-          {/* Seção para a primeira opção */}
-          <div className="ranking-column">
-            <h4 className="ranking-subtitle">1ª Opção</h4>
-            {Object.keys(firstOptionRankings).map((city, index) => (
-              <div key={index} className="ranking-city">
-                <h5 className="city-name">{city}</h5>
-                <ul className="ranking-list">
-                  {firstOptionRankings[city].map((candidate, idx) => (
-                    <li key={idx} className="ranking-item">
-                      <span className="ranking-position">{idx + 1}º</span>
-                      <span className="candidate-name">{candidate.name}</span>
-                      <span className="candidate-classificacao">
-                        Classificação: {candidate.classificacao}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+  <div className="ranking-content">
+    {/* Seção para a primeira opção */}
+    <div className="ranking-column">
+      <h4 className="ranking-subtitle">1ª Opção</h4>
+      {Object.keys(firstOptionRankings).map((city, index) => (
+        <div key={index} className="ranking-city">
+          <h5 className="city-name">{city}</h5>
+          <ul className="ranking-list">
+            {firstOptionRankings[city].map((candidate, idx) => (
+              <li key={idx} className="ranking-item">
+                <span className="ranking-position">{idx + 1}º</span>
+                <span className="candidate-name">{candidate.name}</span>
+                <span className="candidate-classificacao">
+                  Classificação: {candidate.classificacao}
+                </span>
+              </li>
             ))}
-          </div>
-
-          {/* Seção para a segunda opção */}
-          <div className="ranking-column">
-            <h4 className="ranking-subtitle">2ª Opção</h4>
-            {Object.keys(secondOptionRankings).map((city, index) => (
-              <div key={index} className="ranking-city">
-                <h5 className="city-name">{city}</h5>
-                <ul className="ranking-list">
-                  {secondOptionRankings[city].map((candidate, idx) => (
-                    <li key={idx} className="ranking-item">
-                      <span className="ranking-position">{idx + 1}º</span>
-                      <span className="candidate-name">{candidate.name}</span>
-                      <span className="candidate-classificacao">
-                        Classificação: {candidate.classificacao}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          </ul>
         </div>
-      </div>
+      ))}
     </div>
+
+    {/* Seção para a segunda opção */}
+    <div className="ranking-column">
+      <h4 className="ranking-subtitle">2ª Opção</h4>
+      {Object.keys(secondOptionRankings).map((city, index) => (
+        <div key={index} className="ranking-city">
+          <h5 className="city-name">{city}</h5>
+          <ul className="ranking-list">
+            {secondOptionRankings[city].map((candidate, idx) => (
+              <li key={idx} className="ranking-item">
+                <span className="ranking-position">{idx + 1}º</span>
+                <span className="candidate-name">{candidate.name}</span>
+                <span className="candidate-classificacao">
+                  Classificação: {candidate.classificacao}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
   );
 }

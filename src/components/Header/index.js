@@ -19,17 +19,23 @@ export default function Header() {
                         <img src={Logo} alt="Logo" className="logo" />
                     </Link>
                 </div>
-{/*                 
+             
                 <nav className="nav-menu">
                     <ul>
                         <li>
-                            <Link to="/dashboard">Dashboard</Link>
+                            <Link to="/home">Início</Link>
                         </li>
                         <li>
-                            <Link to="/profile">Perfil</Link>
+                            <Link to="/ranking-das-cidades">Ranking das Cidades</Link>
+                        </li>
+                        <li>
+                            <Link to="/ranking-por-cidades-por-classificado">Ranking dos Candidatos por Cidade</Link>
+                        </li>
+                        <li>
+                            <Link to="/profile">Documentos</Link>
                         </li>
                     </ul>
-                </nav> */}
+                </nav>
 
 
                 <button className="logout-button" onClick={handlerLogout}>

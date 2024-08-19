@@ -58,11 +58,19 @@ export default function Register(){
            ): 
           </label>
           <input
-              type='text'
-              placeholder='Classificação'
-              value={classificacao}
-              onChange={(e) => setClassificacao(e.target.value)}
+            type="number" // Mantém o tipo como number para limitar a entrada
+            placeholder="Classificação"
+            value={classificacao}
+            onChange={(e) => {
+              const value = e.target.value;
+              // Permite apenas números inteiros maiores que 0 e menores que 645
+              if (/^\d+$/.test(value) && value > 0 && value < 645) {
+                setClassificacao(value);
+              }
+            }}
+            className="input"
           />
+
 
           <label htmlFor="primeiraOpcao">1ª Opção: </label>
           <select

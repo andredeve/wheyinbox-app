@@ -1,19 +1,15 @@
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../contexts/auth";
 import Header from "../../components/Header";
-import Ranking from "../../components/Ranking";
 import './home.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import CandidatosCount from '../../components/CandidatosCount';
 
-import RankingPorClassificacao from "../../components/RankingClassificacao";
-
 import { db } from '../../services/firebaseConection';
 import { doc, updateDoc } from 'firebase/firestore';
 
 export default function Home() {
-
   const { user, setUser, storageUser, loadingauth, setLoadingAuth } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -75,9 +71,6 @@ export default function Home() {
       <Header/>
       <h1>Total de Candidatos que Preencheram</h1>
       <h4><CandidatosCount/></h4>
-      <Ranking fetchCityRanking={fetchCityRanking} />
-
-      <RankingPorClassificacao/>
 
       <h3 className="grid-title">Minhas Informações - {user.nome}</h3>
 
@@ -98,12 +91,19 @@ export default function Home() {
             ): 
         </label>
         <input
-          type="text"
+          type="number" // Mantém o tipo como number para limitar a entrada
           placeholder="Classificação"
           value={classificacao}
-          onChange={(e) => setClassificacao(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+            // Permite apenas números inteiros maiores que 0 e menores que 645
+            if (/^\d+$/.test(value) && value > 0 && value < 645) {
+              setClassificacao(value);
+            }
+          }}
           className="input"
         />
+
 
         <label htmlFor="primeiraOpcao" className="label">1ª Opção: </label>
         <select
