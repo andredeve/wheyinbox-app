@@ -77,11 +77,10 @@ export default function Home() {
       <form className="form" onSubmit={handlerSubmit}>
         <label htmlFor="nome" className="label">Nome: </label>
         <input
-          type="text"
-          placeholder="Nome Completo"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          className="input"
+            type='text'
+            placeholder='Nome Completo'
+            value={nome}
+            onChange={(e) => setNome(e.target.value.toUpperCase())}
         />
 
         <label htmlFor="classificacao" className="label">Classificação (De acordo com a   

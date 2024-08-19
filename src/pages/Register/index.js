@@ -45,11 +45,12 @@ export default function Register(){
         <form className='form' onSubmit={handlerSubmit}>
           <label htmlFor="nome" className="label">Nome: </label>
           <input
-              type='text'
-              placeholder='Nome Completo'
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
+            type='text'
+            placeholder='Nome Completo'
+            value={nome}
+            onChange={(e) => setNome(e.target.value.toUpperCase())}
           />
+
           
           <label htmlFor="classificacao" className="label">Classificação (De acordo com a   
            <a href="https://docs.google.com/spreadsheets/d/1lvVJMEKE9whOroYyZJvaxIbcD0vpRqQo/edit#gid=1820733924" target="_blank" rel="noopener noreferrer" className="link">
