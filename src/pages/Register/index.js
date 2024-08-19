@@ -48,12 +48,8 @@ export default function Register(){
             type='text'
             placeholder='Nome Completo'
             value={nome}
-            onChange={(e) => {
-              const value = e.target.value.toUpperCase().trimEnd();
-              setNome(value);
-            }}
+            onChange={(e) => setNome(e.target.value.toUpperCase())}
           />
-
 
           
           <label htmlFor="classificacao" className="label">Classificação (De acordo com a   
