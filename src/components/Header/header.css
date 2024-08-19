@@ -14,6 +14,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .logo-container {
@@ -24,6 +25,11 @@
 .logo {
   width: 150px;
   height: auto;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
 }
 
 .nav-menu ul {
@@ -61,5 +67,77 @@
 }
 
 .logout-button:hover {
-  background-color: #5e87b8
+  background-color: #5e87b8;
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 1024px) {
+  .header-content {
+    padding: 0 10px;
+  }
+
+  .logo {
+    width: 120px;
+  }
+
+  .nav-menu ul {
+    gap: 15px;
+  }
+
+  .nav-menu ul li a {
+    font-size: 14px;
+  }
+
+  .logout-button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-menu {
+    width: 100%;
+    display: block;
+    text-align: center;
+  }
+
+  .nav-menu ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-menu ul li a {
+    display: block;
+    padding: 10px 0;
+  }
+
+  .logout-button {
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    width: 100px;
+  }
+
+  .nav-menu ul {
+    gap: 8px;
+  }
+
+  .nav-menu ul li a {
+    font-size: 12px;
+  }
+
+  .logout-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
 }

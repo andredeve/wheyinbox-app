@@ -1,9 +1,12 @@
+/* ranking.css */
+
 .ranking-container {
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .ranking-title {
-  font-size: 24px;
+  font-size: 2rem; /* Ajustado para tamanhos variados */
   margin-bottom: 20px;
   text-align: center;
   color: #333;
@@ -11,22 +14,20 @@
 
 .ranking-content {
   display: flex;
-  justify-content: space-between;
-  background-color: #f8f8f8;
+  flex-direction: column; /* Flexbox para coluna em telas menores */
   gap: 20px; /* Espaço entre as seções */
+  background-color: #f8f8f8;
 }
 
 .ranking-section {
-  flex: 1; /* Permite que as seções ocupem espaço igual */
   padding: 10px;
-  width: 300px;
   border: 1px solid #ddd;
   background-color: #fff;
   border-radius: 4px;
 }
 
 .ranking-subtitle {
-  font-size: 20px;
+  font-size: 1.5rem; /* Ajustado para tamanhos variados */
   margin-bottom: 10px;
 }
 
@@ -39,6 +40,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 8px;
+  font-size: 1rem; /* Ajuste para tamanhos variados */
 }
 
 .ranking-position {
@@ -52,4 +54,46 @@
 
 .city-count {
   color: #666;
+}
+
+/* Media Queries para Responsividade */
+@media (min-width: 768px) {
+  .ranking-content {
+    flex-direction: row; /* Flexbox para linha em telas maiores */
+    justify-content: space-between; /* Espaçamento entre seções */
+  }
+
+  .ranking-section {
+    width: calc(50% - 10px); /* Largura para duas colunas com espaçamento */
+  }
+}
+
+@media (max-width: 768px) {
+  .ranking-title {
+    font-size: 1.5rem; /* Menor tamanho para telas menores */
+  }
+
+  .ranking-subtitle {
+    font-size: 1.25rem; /* Menor tamanho para telas menores */
+  }
+
+  .ranking-item {
+    font-size: 0.875rem; /* Fonte menor em telas pequenas */
+  }
+}
+
+@media (max-width: 480px) {
+  .ranking-title {
+    font-size: 1.25rem; /* Ainda menor para telas muito pequenas */
+  }
+
+  .ranking-subtitle {
+    font-size: 1rem; /* Ainda menor para telas muito pequenas */
+  }
+
+  .ranking-item {
+    font-size: 0.75rem; /* Fonte muito menor em telas muito pequenas */
+    flex-direction: column; /* Muda a direção para coluna em telas muito pequenas */
+    align-items: flex-start; /* Alinha os itens no início */
+  }
 }

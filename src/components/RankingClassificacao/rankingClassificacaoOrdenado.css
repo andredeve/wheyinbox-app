@@ -1,60 +1,116 @@
+/* rankingClassificacaoOrdenado.css */
+
 .ranking-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .ranking-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
   text-align: center;
-  margin-bottom: 20px;
+  color: #333;
 }
 
 .ranking-content {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.ranking-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around; /* Espaçamento entre as colunas */
+  width: 100%;
+  max-width: 1200px; /* Limite a largura máxima */
+  box-sizing: border-box;
 }
 
 .ranking-column {
-  border: 1px solid #ddd;
+  flex: 1;
+  min-width: 300px; /* Largura mínima para as colunas */
+  max-width: 500px; /* Largura máxima para as colunas */
+  margin: 10px;
+  background-color: #fff;
   padding: 10px;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
 .ranking-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
   text-align: center;
-  margin-bottom: 10px;
+  color: #333;
 }
 
 .ranking-city {
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 }
 
 .city-name {
+  font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 5px;
+  color: #555;
+  margin-bottom: 0.5rem;
 }
 
 .ranking-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .ranking-item {
   display: flex;
-  align-items: center;
-  margin-bottom: 5px;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #333;
 }
 
 .ranking-position {
+  font-weight: bold;
   margin-right: 10px;
 }
 
 .candidate-name {
   margin-right: 10px;
+}
+
+.candidate-classificacao {
+  color: #666;
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+  .ranking-title {
+      font-size: 1.5rem;
+  }
+
+  .ranking-subtitle {
+      font-size: 1.25rem;
+  }
+
+  .ranking-item {
+      font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ranking-title {
+      font-size: 1.25rem;
+  }
+
+  .ranking-subtitle {
+      font-size: 1rem;
+  }
+
+  .ranking-item {
+      font-size: 0.75rem;
+      flex-direction: column; /* Muda a direção para coluna em telas pequenas */
+      align-items: flex-start; /* Alinha os itens no início */
+  }
 }
