@@ -57,7 +57,8 @@ export default function Ranking({ fetchCityRanking }) {
   return (
     <div className="ranking-container">
   <h1 className="ranking-title">Ranking dos Candidatos por Cidade</h1>
-
+  <div><h5 className="ranking-title">Dourados: 120 - Três Lagoas: 120 - Aquidauana: 50 - Nova Andradina: 50 - Coxim: 55 - Jardim: 55</h5></div>
+      
   <div className="ranking-content">
     {/* Seção para a primeira opção */}
     <div className="ranking-column">
