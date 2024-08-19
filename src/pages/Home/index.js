@@ -31,13 +31,17 @@ export default function Home() {
 
   async function handlerSubmit(e) {
     e.preventDefault();
-    if (nome !== '' && classificacao !== '' && primeiraOpcao !== '' && segundaOpcao !== '' && primeiraOpcao !== segundaOpcao && segundaOpcao !== primeiraOpcao ) {
-
+    
+    // Remove o último espaço do nome, se houver
+    const trimmedNome = nome.endsWith(' ') ? nome.slice(0, -1) : nome;
+  
+    if (trimmedNome !== '' && classificacao !== '' && primeiraOpcao !== '' && segundaOpcao !== '' && primeiraOpcao !== segundaOpcao && segundaOpcao !== primeiraOpcao) {
+  
       const docRef = doc(db, "users", user.uid);
-
+  
       setLoadingAuth(true);
       await updateDoc(docRef, {
-        nome: nome,
+        nome: trimmedNome,
         classificacao: classificacao,
         cidadeprimeira: primeiraOpcao,
         cidadesegunda: segundaOpcao
@@ -45,12 +49,12 @@ export default function Home() {
       .then(() => {
         let data = {
           ...user,
-          nome: nome,
+          nome: trimmedNome,
           classificacao: classificacao,
           cidadeprimeira: primeiraOpcao,
           cidadesegunda: segundaOpcao
         };
-
+  
         setLoadingAuth(false);
         setUser(data);
         storageUser(data);
@@ -61,10 +65,11 @@ export default function Home() {
         setLoadingAuth(false);
         toast.error("Erro ao atualizar as informações!", { className: 'toast-error' });
       });
-    }else{
+    } else {
       toast.error("Preencha todos os campos!", { className: 'toast-error' });
     }
   }
+  
 
   return (
     <div className="container">
@@ -77,11 +82,13 @@ export default function Home() {
       <form className="form" onSubmit={handlerSubmit}>
         <label htmlFor="nome" className="label">Nome: </label>
         <input
-            type='text'
-            placeholder='Nome Completo'
-            value={nome}
-            onChange={(e) => setNome(e.target.value.toUpperCase())}
+          type='text'
+          placeholder='Nome Completo'
+          value={nome}
+          onChange={(e) => setNome(e.target.value.toUpperCase())}
+          disabled
         />
+
 
         <label htmlFor="classificacao" className="label">Classificação (De acordo com a   
             <a href="https://docs.google.com/spreadsheets/d/1lvVJMEKE9whOroYyZJvaxIbcD0vpRqQo/edit#gid=1820733924" target="_blank" rel="noopener noreferrer" className="link">
