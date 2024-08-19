@@ -1,6 +1,6 @@
 import {useState, createContext, useEffect} from 'react';
 import {auth, db} from '../services/firebaseConection';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, deleteUser, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, deleteUser, listUsers, signOut } from 'firebase/auth';
 import { doc, getDoc,deleteDoc, setDoc, collection, getDocs, updateDoc} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -58,7 +58,7 @@ function AuthProvider({children}){
       "JOSÉ GOMES DE ANDRADE NETO",
       "OSMAR VASQUES GONZALEZ",
       "CASSIANO LUCAS SIMPLICIO BATISTOTE",
-      "LARISSA ARGUILERA DE PAULA (SUB JUDICE)",
+      "LARISSA ARGUILERA DE PAULA",
       "LUDIÉR MARIANO ROSA",
       "BRUNO MACIEL GARCIA",
       "VIVIANE CASSEMIRO DE ALMEIDA CANEPA",
@@ -67,13 +67,13 @@ function AuthProvider({children}){
       "PEDRO GABRIEL TELES BARBOSA",
       "WESLEY ALVES COSTA",
       "CLAUDIELI TANARA WOTTRICH TIMM",
-      "IGOR DE OLIVEIRA SALINA (SUB JUDICE)",
+      "IGOR DE OLIVEIRA SALINA",
       "LUCAS FIGALE CARDOSO",
       "ARTHUR ARAUJO DO NASCIMENTO",
       "MONIQUE ORTIZ SANTANA",
       "LUIS FERNANDO PEREIRA PINTO",
       "ALINE GOMES GONÇALVES",
-      "MELANY ESTEVAO BARBOSA SOARES (SUB JUDICE)",
+      "MELANY ESTEVAO BARBOSA SOARES",
       "LUCAS DE OLIVEIRA DINIZ",
       "CLOVIS DE SOUZA ROCHA",
       "GIOVANNY SOUZA DA FONSECA",
@@ -116,7 +116,7 @@ function AuthProvider({children}){
       "LARISSA FERNANDES DE SOUZA",
       "LUCAS VINÍCIUS CONCHE DE SOUZA",
       "KAROLYNE FREITAS NASCIMENTO",
-      "MARIA ESTELA DA SILVA CASANOVA (SUB JUDICE)",
+      "MARIA ESTELA DA SILVA CASANOVA",
       "GABRIELE BEZERRA PORTO",
       "BRENDA RODRIGUES RAMIRES FERREIRA",
       "ISABELLA CATARINA RODRIGUES JACOB",
@@ -185,7 +185,7 @@ function AuthProvider({children}){
       "BRUNO HENRIQUE SIMÕES",
       "EBERLE TAYSSON PEREIRA MACIEL",
       "ARTHUR VICTOR LEON CAIUBI SOUZA SILVA",
-      "VANESSA MENDES DA SILVA DE OLIVEIRA (SUB JUDICE)",
+      "VANESSA MENDES DA SILVA DE OLIVEIRA",
       "MOACIR FELIPE ARAUJO LESCANO",
       "GIOVANA VIÊRO PECCINI",
       "BIANCA CASSUPA PEREIRA",
@@ -204,8 +204,8 @@ function AuthProvider({children}){
       "ALISSON MONTEIRO CALAZANS",
       "FERNANDA ISFRAN DA SILVA",
       "MATTHEUS CARDENAS SOUZA",
-      "MICHAEL FRANCISCO DA SILVA (SUB JUDICE)",
-      "GIOVANI TEIXEIRA DA SILVA (SUB JUDICE)",
+      "MICHAEL FRANCISCO DA SILVA",
+      "GIOVANI TEIXEIRA DA SILVA",
       "GUSTAVO RODRIGUES LEMES",
       "NATHALIA WELIKA DOS SANTOS ARAUJO",
       "MAGNO LEONCIO SANCHES SARAIVA",
@@ -339,7 +339,7 @@ function AuthProvider({children}){
       "ANA CAROLINA ORMOND DE SOUZA CARVALHO",
       "MURILO HENRIQUE BEZERRA ARAÚJO",
       "DANIEL GUTTEMBERG FERREIRA DE BRITO",
-      "LUCAS XAVIER DE SOUZA OBA (SUB JUDICE)",
+      "LUCAS XAVIER DE SOUZA OBA",
       "ANDRESSA DA SILVA LOVERA",
       "JOAO PEDRO MACHADO NERES",
       "BRUNA PEREIRA SCHUMANN",
@@ -435,7 +435,7 @@ function AuthProvider({children}){
       'IARA APARECIDA RIBEIRO',
       'KAROLINE MELO DE OLIVEIRA PI FERRARIO',
       'FERNANDO HENRIQUE ASSIS DE ANDRADE',
-      'LETICIA DANTAS DA SILVA (SUB JUDICE)',
+      'LETICIA DANTAS DA SILVA',
       'RAFAEL FERREIRA SEGUNDO',
       'DANIEL MACEDO MATOS DA SILVA',
       'GUSTAVO HENRIQUE DOS SANTOS NOETZOLD',
@@ -802,6 +802,35 @@ function AuthProvider({children}){
     //   } catch (error) {
     //     console.error('Erro ao excluir usuários:', error);
     //     toast.error('Erro ao excluir usuários.', { className: 'toast-error' });
+    //   }
+    // }
+
+
+
+    // async function listarEmailsSemRegistro() {
+    //   try {
+    //     // Obtém todos os documentos do Firestore
+    //     const snapshot = await getDocs(collection(db, 'users'));
+    //     const usuariosFirestore = snapshot.docs.map(doc => ({
+    //       email: doc.data().email,
+    //       uid: doc.id
+    //     }));
+    
+    //     // Verifica quais usuários têm o email "CANDIDATO NÃO ENCONTRADO - CORRIGIR"
+    //     const emailsSemRegistro = usuariosFirestore
+    //       .filter(usuario => usuario.email === 'CANDIDATO NÃO ENCONTRADO - CORRIGIR')
+    //       .map(usuario => usuario.email);
+    
+    //     // Exibe os emails que não têm registro no Firestore
+    //     if (emailsSemRegistro.length > 0) {
+    //       console.log(`Emails sem registro no Firestore: ${emailsSemRegistro.join(', ')}`);
+    //       toast.info(`Emails sem registro: ${emailsSemRegistro.join(', ')}`, { className: 'toast-info' });
+    //     } else {
+    //       toast.success('Todos os emails possuem registro no Firestore.', { className: 'toast-success' });
+    //     }
+    //   } catch (error) {
+    //     console.error('Erro ao listar emails sem registro:', error);
+    //     toast.error('Erro ao listar emails sem registro.', { className: 'toast-error' });
     //   }
     // }
 
