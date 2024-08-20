@@ -4,27 +4,39 @@ import { collection, getDocs } from "firebase/firestore";
 import './candidatosCount.css'; // Inclua o CSS se necessário
 
 const UserCount = () => {
-  const [userCount, setUserCount] = useState(0);
+  const [totalUserCount, setTotalUserCount] = useState(0);
+  const [lowRankedUserCount, setLowRankedUserCount] = useState(0);
 
   useEffect(() => {
-    const fetchUserCount = async () => {
+    const fetchUserCounts = async () => {
       try {
-        // Substitua "users" pelo nome da coleção onde os usuários são armazenados
         const usersCollection = collection(db, "users");
         const userSnapshot = await getDocs(usersCollection);
-        const totalUsers = userSnapshot.size; // Obtém o número total de documentos
-        setUserCount(totalUsers);
+        let totalUsers = 0;
+        let lowRankedUsers = 0;
+
+        userSnapshot.forEach((doc) => {
+          totalUsers += 1;
+          const classificacao = doc.data().classificacao;
+          if (classificacao < 500) {
+            lowRankedUsers += 1;
+          }
+        });
+
+        setTotalUserCount(totalUsers);
+        setLowRankedUserCount(lowRankedUsers);
       } catch (error) {
         console.error("Erro ao obter o total de usuários:", error);
       }
     };
 
-    fetchUserCount();
+    fetchUserCounts();
   }, []);
 
   return (
     <div className="user-count">
-      <h2>{userCount}</h2>
+      <h3>Total de Candidatos: {totalUserCount}</h3>
+      <h3>Candidatos com Classificação menor que 500: {lowRankedUserCount}</h3>
     </div>
   );
 };
