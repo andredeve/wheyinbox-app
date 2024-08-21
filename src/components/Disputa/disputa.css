@@ -1,175 +1,146 @@
-/* Estilo geral */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4; /* Cor de fundo suave */
-  }
-  
-  .ranking-container {
+.ranking-container {
+    display: flex;
     padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: #ffffff; /* Cor de fundo do container */
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
   }
   
   .ranking-title {
     font-size: 24px;
-    color: #333333; /* Cor do texto principal */
     margin-bottom: 20px;
   }
   
   .city-list ul {
     list-style-type: none;
     padding: 0;
-    margin: 0;
   }
   
   .city-list li {
-    font-size: 18px;
-    color: #555555; /* Cor do texto das cidades */
-    margin-bottom: 5px;
+    margin: 5px 0;
   }
   
-  /* Estilo para o select da cidade */
   .city-filter {
-    margin-top: 10px;
+    margin-bottom: 20px;
   }
   
   .city-filter label {
-    font-size: 16px;
-    color: #333333; /* Cor do texto do rótulo */
+    margin-right: 10px;
   }
   
-  .city-filter select {
-    font-size: 16px;
-    padding: 5px;
-    margin-left: 10px;
-    border: 1px solid #cccccc; /* Borda do select */
-    border-radius: 4px;
-    background-color: #ffffff; /* Cor de fundo do select */
-    color: #333333; /* Cor do texto do select */
-  }
-  
-  /* Estilo para o ranking final */
   .ranking-content {
-    margin-top: 20px;
-  }
-  
-  .ranking-subtitle {
-    font-size: 20px;
-    color: #007BFF; /* Cor do subtítulo */
-    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    margin-right: 20px;
   }
   
   .ranking-column {
-    margin-top: 20px;
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .ranking-subtitle {
+    font-size: 18px;
+    margin-bottom: 10px;
   }
   
   .ranking-list {
     list-style-type: none;
     padding: 0;
-    margin: 0;
   }
   
   .ranking-item {
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-    background-color: #f9f9f9; /* Cor de fundo dos itens */
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #e0e0e0; /* Borda dos itens */
+    margin-bottom: 15px;
   }
   
-  .ranking-position {
-    font-weight: bold;
-    color: #007BFF; /* Cor da posição */
-    margin-bottom: 5px;
+  .candidate-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .candidate-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
   }
   
   .candidate-name {
     font-weight: bold;
-    color: #333333; /* Cor do nome do candidato */
-    margin-bottom: 5px;
   }
   
-  .candidate-classificacao {
-    color: #888888; /* Cor da classificação */
-    margin-bottom: 5px;
+  .candidate-details p {
+    margin: 5px 0;
   }
   
   .vaga-status.success {
-    color: #28a745; /* Cor verde para sucesso */
-    font-weight: bold;
+    color: green;
   }
   
   .vaga-status.fail {
-    color: #dc3545; /* Cor vermelha para falha */
-    font-weight: bold;
+    color: red;
   }
   
-  .candidate-source {
-    color: #007BFF; /* Cor da fonte de origem */
-    margin-bottom: 5px;
+  .no-vagas-column {
+    width: 300px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
   }
   
-  .also-got-in {
-    color: #6c757d; /* Cor da observação de outras opções */
-    margin-bottom: 5px;
+  .no-vagas-section {
+    margin-bottom: 20px;
   }
   
-  /* Responsividade */
-  @media (max-width: 768px) {
-    .ranking-title,
-    .city-filter label,
-    .ranking-subtitle {
-      font-size: 18px;
-    }
-  
-    .city-filter select {
-      font-size: 14px;
-    }
-  
-    .ranking-item {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .ranking-position,
-    .candidate-name,
-    .candidate-classificacao,
-    .vaga-status,
-    .candidate-source,
-    .also-got-in {
-      font-size: 14px;
-    }
+  .no-vagas-list {
+    list-style-type: none;
+    padding: 0;
+    border-top: 2px solid #ddd;
+    padding-top: 10px;
   }
   
-  @media (max-width: 480px) {
-    .ranking-title,
-    .city-filter label,
-    .ranking-subtitle {
-      font-size: 16px;
-    }
-  
-    .city-filter select {
-      font-size: 12px;
-    }
-  
-    .ranking-item {
-      font-size: 12px;
-    }
-  
-    .ranking-position,
-    .candidate-name,
-    .candidate-classificacao,
-    .vaga-status,
-    .candidate-source,
-    .also-got-in {
-      font-size: 12px;
-    }
+  .ranking-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
   }
+  
+  .ranking-position {
+    margin-right: 10px;
+  }
+  
+
+/* Estilo para o container do select de cidade */
+.city-select-container {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .city-select-container label {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .city-select-container select {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+  }
+  
+  .city-select-container select:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
   

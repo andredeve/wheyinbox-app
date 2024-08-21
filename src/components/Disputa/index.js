@@ -4,8 +4,7 @@ import { collection, getDocs } from "firebase/firestore";
 import './disputa.css';
 
 export default function Ranking({ fetchCityRanking }) {
-  const [firstOptionRankings, setFirstOptionRankings] = useState({});
-  const [secondOptionRankings, setSecondOptionRankings] = useState({});
+  const [rankings, setRankings] = useState({});
   const [selectedCity, setSelectedCity] = useState(""); // Estado para a cidade selecionada
 
   const cityVagas = {
@@ -15,47 +14,48 @@ export default function Ranking({ fetchCityRanking }) {
     "Nova Andradina": 50,
     "Coxim": 55,
     "Jardim": 55,
+    "Ponta Porã": 50 // Adicionando a cidade de Ponta Porã
   };
 
   async function fetchRanking() {
     const querySnapshot = await getDocs(collection(db, "users"));
-    const candidatesByFirstCity = {};
-    const candidatesBySecondCity = {};
+    const candidatesByCity = {};
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       const primeiraOpcao = data.cidadeprimeira;
       const segundaOpcao = data.cidadesegunda;
       const nome = data.nome;
-      const classificacao = data.classificacao; // Supondo que há uma propriedade de classificação no banco de dados
+      const classificacao = data.classificacao;
 
       if (primeiraOpcao) {
-        if (!candidatesByFirstCity[primeiraOpcao]) {
-          candidatesByFirstCity[primeiraOpcao] = [];
+        if (!candidatesByCity[primeiraOpcao]) {
+          candidatesByCity[primeiraOpcao] = [];
         }
-        candidatesByFirstCity[primeiraOpcao].push({
+        candidatesByCity[primeiraOpcao].push({
           name: nome,
           classificacao,
           source: 'primeiraOpcao',
-          position: candidatesByFirstCity[primeiraOpcao].length + 1,
+          segundaOpcao,
+          primeiraOpcao
         });
       }
 
       if (segundaOpcao) {
-        if (!candidatesBySecondCity[segundaOpcao]) {
-          candidatesBySecondCity[segundaOpcao] = [];
+        if (!candidatesByCity[segundaOpcao]) {
+          candidatesByCity[segundaOpcao] = [];
         }
-        candidatesBySecondCity[segundaOpcao].push({
+        candidatesByCity[segundaOpcao].push({
           name: nome,
           classificacao,
           source: 'segundaOpcao',
-          position: candidatesBySecondCity[segundaOpcao].length + 1,
+          primeiraOpcao,
+          segundaOpcao
         });
       }
     });
 
-    setFirstOptionRankings(candidatesByFirstCity);
-    setSecondOptionRankings(candidatesBySecondCity);
+    setRankings(candidatesByCity);
   }
 
   useEffect(() => {
@@ -73,40 +73,72 @@ export default function Ranking({ fetchCityRanking }) {
   const getFinalRanking = () => {
     const cities = selectedCity ? [selectedCity] : Object.keys(cityVagas);
     const finalRankings = {};
+    const noVagasList = {};
 
     cities.forEach((city) => {
-      const firstOptionCandidates = firstOptionRankings[city] || [];
-      const secondOptionCandidates = secondOptionRankings[city] || [];
+      const allCandidates = rankings[city] || [];
 
-      // Ordenar candidatos por classificação para a primeira opção e segunda opção
+      // Separar candidatos por primeira e segunda opção
+      const firstOptionCandidates = allCandidates.filter(c => c.source === 'primeiraOpcao');
+      const secondOptionCandidates = allCandidates.filter(c => c.source === 'segundaOpcao');
+
+      // Ordenar candidatos por classificação para a primeira opção
       const sortedFirstOptionCandidates = firstOptionCandidates.sort((a, b) => a.classificacao - b.classificacao);
-      const sortedSecondOptionCandidates = secondOptionCandidates.sort((a, b) => a.classificacao - b.classificacao);
 
-      const combinedCandidates = sortedFirstOptionCandidates
+      // Identificar candidatos que conseguiram vaga na primeira opção
+      const successfulFirstOptionCandidates = sortedFirstOptionCandidates
         .map((candidate, index) => ({
           ...candidate,
           finalPosition: index + 1,
           vagasDisponiveis: cityVagas[city],
           status: verificarVagaPorPosicao(index + 1, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga',
-          alsoGotIn: secondOptionCandidates.some(c => c.name === candidate.name) ? 'Sim, na segunda opção' : 'Não',
-        }))
-        .concat(
-          sortedSecondOptionCandidates
-            .filter(candidate => !sortedFirstOptionCandidates.some(c => c.name === candidate.name))
-            .map((candidate, index) => ({
-              ...candidate,
-              finalPosition: index + 1,
-              vagasDisponiveis: cityVagas[city],
-              status: verificarVagaPorPosicao(index + 1, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga',
-              alsoGotIn: 'Não aplicável',
-            }))
-        );
+          noFirstOption: verificarVagaPorPosicao(index + 1, cityVagas[city]) ? 'Não' : 'Sim'
+        }));
 
-      finalRankings[city] = combinedCandidates;
+      // Filtrar candidatos que não conseguiram vaga na primeira opção
+      const noFirstOptionCandidates = successfulFirstOptionCandidates
+        .filter(candidate => candidate.noFirstOption === 'Sim');
+
+      // Candidatos da segunda opção que são candidatos válidos (não conseguiram vaga na primeira opção)
+      const eligibleForSecondOption = secondOptionCandidates
+        .filter(candidate => !successfulFirstOptionCandidates.some(c => c.name === candidate.name))
+        .map((candidate, index) => ({
+          ...candidate,
+          finalPosition: index + 1,
+          vagasDisponiveis: cityVagas[city],
+          status: verificarVagaPorPosicao(index + 1, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga',
+          noFirstOption: 'Sim'
+        }));
+
+      // Garantir que candidatos que conseguiram vaga em uma opção não sejam listados na outra
+      const uniqueCandidates = successfulFirstOptionCandidates
+        .filter(candidate => candidate.status === 'Conseguiu a vaga')
+        .sort((a, b) => a.classificacao - b.classificacao);
+
+      // Candidatos que não conseguiram vaga em nenhuma opção
+      const noVagasCandidates = secondOptionCandidates
+        .filter(candidate => !successfulFirstOptionCandidates.some(c => c.name === candidate.name) && !eligibleForSecondOption.some(c => c.name === candidate.name))
+        .map((candidate, index) => ({
+          ...candidate,
+          finalPosition: index + 1,
+          vagasDisponiveis: cityVagas[city],
+          status: 'Não conseguiu a vaga',
+          noFirstOption: 'Sim'
+        }));
+
+      finalRankings[city] = uniqueCandidates;
+      noVagasList[city] = noVagasCandidates
+        .filter((candidate, index, self) =>
+          index === self.findIndex((t) => (
+            t.name === candidate.name
+          )))
+        .sort((a, b) => a.classificacao - b.classificacao);
     });
 
-    return finalRankings;
+    return { finalRankings, noVagasList };
   };
+
+  const { finalRankings, noVagasList } = getFinalRanking();
 
   return (
     <div className="ranking-container">
@@ -120,8 +152,7 @@ export default function Ranking({ fetchCityRanking }) {
         </ul>
       </div>
 
-      {/* Select para filtrar por cidade */}
-      <div className="city-filter">
+      <div className="city-select-container">
         <label htmlFor="citySelect">Selecione a cidade: </label>
         <select id="citySelect" value={selectedCity} onChange={handleCityChange}>
           <option value="">Todas</option>
@@ -134,31 +165,63 @@ export default function Ranking({ fetchCityRanking }) {
       </div>
 
       <div className="ranking-content">
-        {Object.keys(getFinalRanking()).map((city, index) => (
-          <div key={index} className="ranking-column">
-            <h4 className="ranking-subtitle">{city}</h4>
-            <ul className="ranking-list">
-              {getFinalRanking()[city].map((candidate, idx) => (
-                <li key={idx} className="ranking-item">
-                  <span className="ranking-position">{idx + 1}º</span>
-                  <span className="candidate-name">{candidate.name}</span>
-                  <span className="candidate-classificacao">
-                    Classificação: {candidate.classificacao}
-                  </span>
-                  <span className={`vaga-status ${candidate.status === 'Conseguiu a vaga' ? 'success' : 'fail'}`}>
-                    {candidate.status}
-                  </span>
-                  <span className={`candidate-source ${candidate.source}`}>
-                    {candidate.source === 'primeiraOpcao' ? 'Primeira Opção' : 'Segunda Opção'}
-                  </span>
-                  <span className="also-got-in">
-                    Também conseguiu na outra opção: {candidate.alsoGotIn}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        <div className="ranking-list">
+          {Object.keys(finalRankings).map((city, index) => (
+            <div key={index} className="ranking-column">
+              <h4 className="ranking-subtitle">{city}</h4>
+              <ul className="ranking-list">
+                {finalRankings[city].map((candidate, idx) => (
+                  <li key={idx} className="ranking-item">
+                    <div className="candidate-box">
+                      <div className="candidate-header">
+                        <span className="ranking-position">{idx + 1}º</span>
+                        <span className="candidate-name">{candidate.name}</span>
+                      </div>
+                      <div className="candidate-details">
+                        <p><strong>Classificação:</strong> {candidate.classificacao}</p>
+                        <p><strong>Status:</strong> {candidate.status}</p>
+                        <p><strong>Fonte:</strong> {candidate.source === 'primeiraOpcao' ? 'Primeira Opção' : 'Segunda Opção'}</p>
+                        <p><strong>Primeira Opção:</strong> {candidate.primeiraOpcao || 'Não aplicável'}</p>
+                        <p><strong>Segunda Opção:</strong> {candidate.segundaOpcao || 'Não aplicável'}</p>
+                        {candidate.noFirstOption === 'Sim' && (
+                          <p><strong>Observação:</strong> Não conseguiu na primeira opção</p>
+                        )}
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Lista fixa ao lado do ranking com candidatos que não conseguiram vaga em nenhuma opção */}
+        <div className="no-vagas-column">
+          <h4 className="ranking-subtitle">Candidatos Sem Vaga</h4>
+          {Object.keys(noVagasList).map((city, index) => (
+            <div key={index} className="no-vagas-section">
+              <h5>{city}</h5>
+              <ul className="ranking-list no-vagas-list">
+                {noVagasList[city].map((candidate, idx) => (
+                  <li key={idx} className="ranking-item">
+                    <div className="candidate-box">
+                      <div className="candidate-header">
+                        <span className="ranking-position">{idx + 1}º</span>
+                        <span className="candidate-name">{candidate.name}</span>
+                      </div>
+                      <div className="candidate-details">
+                        <p><strong>Classificação:</strong> {candidate.classificacao}</p>
+                        <p><strong>Status:</strong> {candidate.status}</p>
+                        <p><strong>Primeira Opção:</strong> {candidate.primeiraOpcao || 'Não aplicável'}</p>
+                        <p><strong>Segunda Opção:</strong> {candidate.segundaOpcao || 'Não aplicável'}</p>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
