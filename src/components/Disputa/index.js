@@ -7,7 +7,7 @@ export default function Ranking({ fetchCityRanking }) {
   const [firstOptionRankings, setFirstOptionRankings] = useState({});
   const [secondOptionRankings, setSecondOptionRankings] = useState({});
   const [selectedCity, setSelectedCity] = useState(""); // Estado para a cidade selecionada
-  
+
   const cityVagas = {
     "Dourados": 120,
     "Três Lagoas": 120,
@@ -33,14 +33,24 @@ export default function Ranking({ fetchCityRanking }) {
         if (!candidatesByFirstCity[primeiraOpcao]) {
           candidatesByFirstCity[primeiraOpcao] = [];
         }
-        candidatesByFirstCity[primeiraOpcao].push({ name: nome, classificacao, source: 'primeiraOpcao', position: candidatesByFirstCity[primeiraOpcao].length + 1 });
+        candidatesByFirstCity[primeiraOpcao].push({
+          name: nome,
+          classificacao,
+          source: 'primeiraOpcao',
+          position: candidatesByFirstCity[primeiraOpcao].length + 1,
+        });
       }
 
       if (segundaOpcao) {
         if (!candidatesBySecondCity[segundaOpcao]) {
           candidatesBySecondCity[segundaOpcao] = [];
         }
-        candidatesBySecondCity[segundaOpcao].push({ name: nome, classificacao, source: 'segundaOpcao', position: candidatesBySecondCity[segundaOpcao].length + 1 });
+        candidatesBySecondCity[segundaOpcao].push({
+          name: nome,
+          classificacao,
+          source: 'segundaOpcao',
+          position: candidatesBySecondCity[segundaOpcao].length + 1,
+        });
       }
     });
 
@@ -68,8 +78,29 @@ export default function Ranking({ fetchCityRanking }) {
       const firstOptionCandidates = firstOptionRankings[city] || [];
       const secondOptionCandidates = secondOptionRankings[city] || [];
 
-      const combinedCandidates = [...firstOptionCandidates, ...secondOptionCandidates]
-        .sort((a, b) => a.classificacao - b.classificacao || a.position - b.position); // Ordenar por classificação e posição
+      // Ordenar candidatos por classificação para a primeira opção e segunda opção
+      const sortedFirstOptionCandidates = firstOptionCandidates.sort((a, b) => a.classificacao - b.classificacao);
+      const sortedSecondOptionCandidates = secondOptionCandidates.sort((a, b) => a.classificacao - b.classificacao);
+
+      const combinedCandidates = sortedFirstOptionCandidates
+        .map((candidate, index) => ({
+          ...candidate,
+          finalPosition: index + 1,
+          vagasDisponiveis: cityVagas[city],
+          status: verificarVagaPorPosicao(index + 1, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga',
+          alsoGotIn: secondOptionCandidates.some(c => c.name === candidate.name) ? 'Sim, na segunda opção' : 'Não',
+        }))
+        .concat(
+          sortedSecondOptionCandidates
+            .filter(candidate => !sortedFirstOptionCandidates.some(c => c.name === candidate.name))
+            .map((candidate, index) => ({
+              ...candidate,
+              finalPosition: index + 1,
+              vagasDisponiveis: cityVagas[city],
+              status: verificarVagaPorPosicao(index + 1, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga',
+              alsoGotIn: 'Não aplicável',
+            }))
+        );
 
       finalRankings[city] = combinedCandidates;
     });
@@ -114,11 +145,14 @@ export default function Ranking({ fetchCityRanking }) {
                   <span className="candidate-classificacao">
                     Classificação: {candidate.classificacao}
                   </span>
-                  <span className={`vaga-status ${verificarVagaPorPosicao(candidate.position, cityVagas[city]) ? 'success' : 'fail'}`}>
-                    {verificarVagaPorPosicao(candidate.position, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga'}
+                  <span className={`vaga-status ${candidate.status === 'Conseguiu a vaga' ? 'success' : 'fail'}`}>
+                    {candidate.status}
                   </span>
                   <span className={`candidate-source ${candidate.source}`}>
                     {candidate.source === 'primeiraOpcao' ? 'Primeira Opção' : 'Segunda Opção'}
+                  </span>
+                  <span className="also-got-in">
+                    Também conseguiu na outra opção: {candidate.alsoGotIn}
                   </span>
                 </li>
               ))}

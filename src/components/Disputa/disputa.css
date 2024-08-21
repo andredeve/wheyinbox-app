@@ -1,88 +1,175 @@
-/* Estilo para o select */
-select {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    cursor: pointer;
-    width: 200px;
-    margin-top: 10px;
-}
-
-select:focus {
-    outline: none;
-    border-color: #007bff;
-}
-
-/* Outros estilos mantidos conforme fornecido */
-.city-list ul {
+/* Estilo geral */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Cor de fundo suave */
+  }
+  
+  .ranking-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #ffffff; /* Cor de fundo do container */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ranking-title {
+    font-size: 24px;
+    color: #333333; /* Cor do texto principal */
+    margin-bottom: 20px;
+  }
+  
+  .city-list ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
-}
-
-.city-list li {
+  }
+  
+  .city-list li {
     font-size: 18px;
+    color: #555555; /* Cor do texto das cidades */
     margin-bottom: 5px;
-}
-
-.ranking-content {
+  }
+  
+  /* Estilo para o select da cidade */
+  .city-filter {
+    margin-top: 10px;
+  }
+  
+  .city-filter label {
+    font-size: 16px;
+    color: #333333; /* Cor do texto do rótulo */
+  }
+  
+  .city-filter select {
+    font-size: 16px;
+    padding: 5px;
+    margin-left: 10px;
+    border: 1px solid #cccccc; /* Borda do select */
+    border-radius: 4px;
+    background-color: #ffffff; /* Cor de fundo do select */
+    color: #333333; /* Cor do texto do select */
+  }
+  
+  /* Estilo para o ranking final */
+  .ranking-content {
     margin-top: 20px;
-}
-
-.ranking-subtitle {
+  }
+  
+  .ranking-subtitle {
     font-size: 20px;
+    color: #007BFF; /* Cor do subtítulo */
     margin-bottom: 10px;
-}
-
-.ranking-list {
+  }
+  
+  .ranking-column {
+    margin-top: 20px;
+  }
+  
+  .ranking-list {
     list-style-type: none;
     padding: 0;
     margin: 0;
-}
-
-.ranking-item {
+  }
+  
+  .ranking-item {
     margin-bottom: 10px;
-}
-
-.ranking-position {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9; /* Cor de fundo dos itens */
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0; /* Borda dos itens */
+  }
+  
+  .ranking-position {
     font-weight: bold;
-    margin-right: 10px;
-}
-
-.candidate-name {
-    margin-right: 10px;
-}
-
-.candidate-classificacao {
-    margin-right: 10px;
-}
-
-.vaga-status.success {
-    color: green;
+    color: #007BFF; /* Cor da posição */
+    margin-bottom: 5px;
+  }
+  
+  .candidate-name {
     font-weight: bold;
-}
-
-.vaga-status.fail {
-    color: red;
+    color: #333333; /* Cor do nome do candidato */
+    margin-bottom: 5px;
+  }
+  
+  .candidate-classificacao {
+    color: #888888; /* Cor da classificação */
+    margin-bottom: 5px;
+  }
+  
+  .vaga-status.success {
+    color: #28a745; /* Cor verde para sucesso */
     font-weight: bold;
-}
-
-.city-filter {
-    margin-top: 10px;
-}
-
-/* Estilo para a origem da cidade */
-.candidate-source {
-    margin-left: 10px;
-    font-style: italic;
-}
-
-.candidate-source.primeiraOpcao {
-    color: blue;
-}
-
-.candidate-source.segundaOpcao {
-    color: orange;
-}
+  }
+  
+  .vaga-status.fail {
+    color: #dc3545; /* Cor vermelha para falha */
+    font-weight: bold;
+  }
+  
+  .candidate-source {
+    color: #007BFF; /* Cor da fonte de origem */
+    margin-bottom: 5px;
+  }
+  
+  .also-got-in {
+    color: #6c757d; /* Cor da observação de outras opções */
+    margin-bottom: 5px;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .ranking-title,
+    .city-filter label,
+    .ranking-subtitle {
+      font-size: 18px;
+    }
+  
+    .city-filter select {
+      font-size: 14px;
+    }
+  
+    .ranking-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .ranking-position,
+    .candidate-name,
+    .candidate-classificacao,
+    .vaga-status,
+    .candidate-source,
+    .also-got-in {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .ranking-title,
+    .city-filter label,
+    .ranking-subtitle {
+      font-size: 16px;
+    }
+  
+    .city-filter select {
+      font-size: 12px;
+    }
+  
+    .ranking-item {
+      font-size: 12px;
+    }
+  
+    .ranking-position,
+    .candidate-name,
+    .candidate-classificacao,
+    .vaga-status,
+    .candidate-source,
+    .also-got-in {
+      font-size: 12px;
+    }
+  }
+  
