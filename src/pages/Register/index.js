@@ -43,7 +43,13 @@ export default function Register(){
         </div>
       
         <form className='form' onSubmit={handlerSubmit}>
-          <label htmlFor="nome" className="label">Nome: </label>
+          <label htmlFor="nome" className="label">Nome 
+          (De acordo com a   
+            <a href="https://docs.google.com/spreadsheets/d/1lvVJMEKE9whOroYyZJvaxIbcD0vpRqQo/edit#gid=1820733924" target="_blank" rel="noopener noreferrer" className="link">
+            Planilha
+            </a>
+            ):
+          </label>
           <input
             type='text'
             placeholder='Nome Completo'
