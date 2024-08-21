@@ -5,6 +5,7 @@ import './home.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import CandidatosCount from '../../components/CandidatosCount';
+import Disputa from '../../components/Disputa';
 
 import { db } from '../../services/firebaseConection';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -76,6 +77,8 @@ export default function Home() {
       <Header/>
       <h1>Total de Candidatos que Preencheram</h1>
       <h4><CandidatosCount/></h4>
+
+      {/* <Disputa/> */}
 
       <h3 className="grid-title">Minhas Informações - {user.nome}</h3>
 

@@ -84,6 +84,38 @@
   color: #666;
 }
 
+/* Estilo para o container do select de cidade */
+.city-select-container {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.city-select-container label {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.city-select-container select {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  width: 100%;
+  max-width: 300px;
+  box-sizing: border-box;
+}
+
+.city-select-container select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
 /* Media Queries para Responsividade */
 @media (max-width: 768px) {
   .ranking-title {
@@ -95,6 +127,10 @@
   }
 
   .ranking-item {
+      font-size: 0.875rem;
+  }
+
+  .city-select-container select {
       font-size: 0.875rem;
   }
 }
@@ -112,5 +148,9 @@
       font-size: 0.75rem;
       flex-direction: column; /* Muda a direção para coluna em telas pequenas */
       align-items: flex-start; /* Alinha os itens no início */
+  }
+
+  .city-select-container select {
+      font-size: 0.75rem;
   }
 }

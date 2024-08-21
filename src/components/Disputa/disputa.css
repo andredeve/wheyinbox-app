@@ -1,0 +1,10 @@
+.vaga-status.success {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .vaga-status.fail {
+    color: red;
+    font-weight: bold;
+  }
+  

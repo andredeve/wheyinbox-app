@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../../services/firebaseConection";
 import { collection, getDocs } from "firebase/firestore";
-import './rankingClassificacaoOrdenado.css';
+import './disputa.css';
 
 export default function Ranking({ fetchCityRanking }) {
   const [firstOptionRankings, setFirstOptionRankings] = useState({});
   const [secondOptionRankings, setSecondOptionRankings] = useState({});
-  const [selectedCity, setSelectedCity] = useState(''); // Estado para armazenar a cidade selecionada
+  const [selectedCity, setSelectedCity] = useState(""); // Estado para a cidade selecionada
+  
+  const cityVagas = {
+    "Dourados": 120,
+    "Três Lagoas": 120,
+    "Aquidauana": 50,
+    "Nova Andradina": 50,
+    "Coxim": 55,
+    "Jardim": 55,
+  };
 
-  // Função para buscar e agrupar o ranking dos candidatos por cidade (primeira e segunda opção)
   async function fetchRanking() {
     const querySnapshot = await getDocs(collection(db, "users"));
     const candidatesByFirstCity = {};
@@ -19,7 +27,7 @@ export default function Ranking({ fetchCityRanking }) {
       const primeiraOpcao = data.cidadeprimeira;
       const segundaOpcao = data.cidadesegunda;
       const nome = data.nome;
-      const classificacao = data.classificacao; // Supondo que há uma propriedade de classificação no banco de dados
+      const classificacao = data.classificacao;
 
       if (primeiraOpcao) {
         if (!candidatesByFirstCity[primeiraOpcao]) {
@@ -36,7 +44,6 @@ export default function Ranking({ fetchCityRanking }) {
       }
     });
 
-    // Ordena os candidatos dentro de cada cidade
     const sortedFirstOptionRankings = {};
     for (const city in candidatesByFirstCity) {
       sortedFirstOptionRankings[city] = candidatesByFirstCity[city].sort((a, b) => a.classificacao - b.classificacao);
@@ -55,37 +62,43 @@ export default function Ranking({ fetchCityRanking }) {
     fetchRanking();
   }, [fetchCityRanking]);
 
-  // Função para lidar com a mudança na seleção da cidade
-  function handleCityChange(event) {
-    setSelectedCity(event.target.value);
-  }
+  const verificarVaga = (classificacao, vagasDisponiveis) => {
+    return classificacao <= vagasDisponiveis;
+  };
+
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+  };
 
   return (
     <div className="ranking-container">
       <h1 className="ranking-title">Ranking dos Candidatos por Cidade</h1>
+      
       <div>
         <h5 className="ranking-title">
           Dourados: 120 - Três Lagoas: 120 - Aquidauana: 50 - Nova Andradina: 50 - Coxim: 55 - Jardim: 55
         </h5>
       </div>
       
-      {/* Dropdown para selecionar a cidade */}
-      <div className="city-select-container">
-        <label htmlFor="city-select">Selecione uma cidade:</label>
-        <select id="city-select" value={selectedCity} onChange={handleCityChange}>
-          <option value="">Todas as Cidades</option>
-          {Object.keys(firstOptionRankings).map((city, index) => (
-            <option key={index} value={city}>{city}</option>
+      {/* Select para filtrar por cidade */}
+      <div className="city-filter">
+        <label htmlFor="citySelect">Selecione a cidade: </label>
+        <select id="citySelect" value={selectedCity} onChange={handleCityChange}>
+          <option value="">Todas</option>
+          {Object.keys(cityVagas).map((city, index) => (
+            <option key={index} value={city}>
+              {city}
+            </option>
           ))}
         </select>
       </div>
-      
+
       <div className="ranking-content">
         {/* Seção para a primeira opção */}
         <div className="ranking-column">
           <h4 className="ranking-subtitle">1ª Opção</h4>
           {Object.keys(firstOptionRankings)
-            .filter(city => !selectedCity || city === selectedCity) // Filtra pela cidade selecionada
+            .filter((city) => !selectedCity || city === selectedCity)
             .map((city, index) => (
               <div key={index} className="ranking-city">
                 <h5 className="city-name">{city}</h5>
@@ -96,6 +109,9 @@ export default function Ranking({ fetchCityRanking }) {
                       <span className="candidate-name">{candidate.name}</span>
                       <span className="candidate-classificacao">
                         Classificação: {candidate.classificacao}
+                      </span>
+                      <span className={`vaga-status ${verificarVaga(candidate.classificacao, cityVagas[city]) ? 'success' : 'fail'}`}>
+                        {verificarVaga(candidate.classificacao, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga'}
                       </span>
                     </li>
                   ))}
@@ -108,7 +124,7 @@ export default function Ranking({ fetchCityRanking }) {
         <div className="ranking-column">
           <h4 className="ranking-subtitle">2ª Opção</h4>
           {Object.keys(secondOptionRankings)
-            .filter(city => !selectedCity || city === selectedCity) // Filtra pela cidade selecionada
+            .filter((city) => !selectedCity || city === selectedCity)
             .map((city, index) => (
               <div key={index} className="ranking-city">
                 <h5 className="city-name">{city}</h5>
@@ -119,6 +135,9 @@ export default function Ranking({ fetchCityRanking }) {
                       <span className="candidate-name">{candidate.name}</span>
                       <span className="candidate-classificacao">
                         Classificação: {candidate.classificacao}
+                      </span>
+                      <span className={`vaga-status ${verificarVaga(candidate.classificacao, cityVagas[city]) ? 'success' : 'fail'}`}>
+                        {verificarVaga(candidate.classificacao, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga'}
                       </span>
                     </li>
                   ))}
