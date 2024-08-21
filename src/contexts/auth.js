@@ -1,7 +1,7 @@
 import {useState, createContext, useEffect} from 'react';
 import {auth, db} from '../services/firebaseConection';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, deleteUser, listUsers, signOut } from 'firebase/auth';
-import { doc, getDoc,deleteDoc, setDoc, collection, getDocs, updateDoc} from 'firebase/firestore';
+import { doc, getDoc,deleteDoc, query, where, setDoc, collection, getDocs, updateDoc} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -668,6 +668,662 @@ function AuthProvider({children}){
       "HAVANA FARDIM DA GAMA"
     ];
 
+    const nomeCandidatosClassificacao = [
+      { nome: 'Janaina Oliveira Lacerda', classificacao: 1 },
+      { nome: 'Edson Augusto Alves Da Silva', classificacao: 2 },
+      { nome: 'Fernando Agues De Oliveira', classificacao: 3 },
+      { nome: 'Gleiciane Santos Costa', classificacao: 4 },
+      { nome: 'Pedro Elias Da Silveira', classificacao: 5 },
+      { nome: 'Henrique Lima Dos Santos', classificacao: 6 },
+      { nome: 'Lucas Matheus Barbosa Deoliveira', classificacao: 7 },
+      { nome: 'João Victor Francisquett Dos Santos', classificacao: 8 },
+      { nome: 'Mauri Kehl Junior', classificacao: 9 },
+      { nome: 'Vinicius Moretti De Paula', classificacao: 10 },
+      { nome: 'Reuhel Da Silva Cavalcante', classificacao: 11 },
+      { nome: 'William Marcari Ribeiro Barros', classificacao: 12 },
+      { nome: 'Julio Cesar Silva Rodrigues', classificacao: 13 },
+      { nome: 'Larissa Aryane Galvão', classificacao: 14 },
+      { nome: 'Thayloane Souza Da Silva Luz', classificacao: 15 },
+      { nome: 'Luciene Sales Dos Santos', classificacao: 16 },
+      { nome: 'Paulo Sérgio Akieda', classificacao: 17 },
+      { nome: 'Fernanda Cardoso Wolf', classificacao: 18 },
+      { nome: 'Renato Arthur Fabro Dos Santos', classificacao: 19 },
+      { nome: 'Bruna Quezini Da Silva', classificacao: 20 },
+      { nome: 'Alexsandra Carolina Guimarães De Oliveira', classificacao: 21 },
+      { nome: 'Meiri Anita Nichetti Haach', classificacao: 22 },
+      { nome: 'André Luiz Ferreira Da Silva', classificacao: 23 },
+      { nome: 'Ronaldo Lopes Maciel', classificacao: 24 },
+      { nome: 'Juliana Romeiro Salina', classificacao: 25 },
+      { nome: 'Willian Dias Da Silva Junior', classificacao: 26 },
+      { nome: 'Thiago Alberto Valle Do Nascimento', classificacao: 27 },
+      { nome: 'Murilo Brendo Dias Lins', classificacao: 28 },
+      { nome: 'Edmilson Camargo Da Silva', classificacao: 29 },
+      { nome: 'Mariana Maria Rodrigues Zito', classificacao: 30 },
+      { nome: 'Gustavo Cesar Domingues De Oliveira', classificacao: 31 },
+      { nome: 'André De Lima Benteo', classificacao: 32 },
+      { nome: 'Gabriela Ribeiro Mendonça Maldonado', classificacao: 33 },
+      { nome: 'Lyncon Marques', classificacao: 34 },
+      { nome: 'Rodrigo Alves Barros', classificacao: 35 },
+      { nome: 'Vitoria Caroline Barboza Fernandes De Souza', classificacao: 36 },
+      { nome: 'Elliot Jacques Lima', classificacao: 37 },
+      { nome: 'Pedro Henrique Figueiredo Barbosa', classificacao: 38 },
+      { nome: 'Edson Eduardo Fernandes Amarilha', classificacao: 39 },
+      { nome: 'Wesley Mendonça De Brito Silva', classificacao: 40 },
+      { nome: 'Carlos Henrique Alves Rodrigues', classificacao: 41 },
+      { nome: 'José Gomes De Andrade Neto', classificacao: 42 },
+      { nome: 'Osmar Vasques Gonzalez', classificacao: 43 },
+      { nome: 'Cassiano Lucas Simplicio Batistote', classificacao: 44 },
+      { nome: 'Larissa Arguilera De Paula (Sub judice)', classificacao: 45 },
+      { nome: 'Ludiér Mariano Rosa', classificacao: 46 },
+      { nome: 'Bruno Maciel Garcia', classificacao: 47 },
+      { nome: 'Viviane Cassemiro De Almeida Canepa', classificacao: 48 },
+      { nome: 'Vítor Da Rocha Dias Duarte', classificacao: 49 },
+      { nome: 'Camila Da Silva Calixto Aguirre', classificacao: 50 },
+      { nome: 'Pedro Gabriel Teles Barbosa', classificacao: 51 },
+      { nome: 'Wesley Alves Costa', classificacao: 52 },
+      { nome: 'Claudieli Tanara Wottrich Timm', classificacao: 53 },
+      { nome: 'Igor De Oliveira Salina (Sub judice)', classificacao: 54 },
+      { nome: 'Lucas Figale Cardoso', classificacao: 55 },
+      { nome: 'Arthur Araujo Do Nascimento', classificacao: 56 },
+      { nome: 'Monique Ortiz Santana', classificacao: 57 },
+      { nome: 'Luis Fernando Pereira Pinto', classificacao: 58 },
+      { nome: 'Aline Gomes Gonçalves', classificacao: 59 },
+      { nome: 'Melany Estevao Barbosa Soares (Sub judice)', classificacao: 60 },
+      { nome: 'Lucas De Oliveira Diniz', classificacao: 61 },
+      { nome: 'Clovis De Souza Rocha', classificacao: 62 },
+      { nome: 'Giovanny Souza Da Fonseca', classificacao: 63 },
+      { nome: 'Ricardo Junior Alves Kurovski', classificacao: 64 },
+      { nome: 'Alexandre Bernardes Gomes Da Silva', classificacao: 65 },
+      { nome: 'Leandro Dos Santos Pereira', classificacao: 66 },
+      { nome: 'Denner Douglas Medeiros Soares', classificacao: 67 },
+      { nome: 'Edson Maximo Romero Junior', classificacao: 68 },
+      { nome: 'Luiz Fernando Nunes', classificacao: 69 },
+      { nome: 'Valleria Orso Valmini Siqueira', classificacao: 70 },
+      { nome: 'Thaisson Oliveira Da Silva', classificacao: 71 },
+      { nome: 'Johnne Alex Batista Gomes', classificacao: 72 },
+      { nome: 'Nícolas Nogueira Duailibi', classificacao: 73 },
+      { nome: 'Nicole Roda Rodrigues', classificacao: 74 },
+      { nome: 'Douglas Soares Regini', classificacao: 75 },
+      { nome: 'Lucas Anthony Alves Barros', classificacao: 76 },
+      { nome: 'Fernanda Silva Marques', classificacao: 77 },
+      { nome: 'Elivander Sanches Honorato', classificacao: 78 },
+      { nome: 'Rewller Vianna Da Silva', classificacao: 79 },
+      { nome: 'Bruno Vinicius Da Silva Abreu', classificacao: 80 },
+      { nome: 'Anderson Barroso De Almeida', classificacao: 81 },
+      { nome: 'Samuel De Souza Queiroz', classificacao: 82 },
+      { nome: 'Daniella Ferreira Leite', classificacao: 83 },
+      { nome: 'Raissa Maria Alves Vida', classificacao: 84 },
+      { nome: 'Bruno Antonio Dos Reis', classificacao: 85 },
+      { nome: 'Dalvan Bruno Ferreira Da Silva', classificacao: 86 },
+      { nome: 'Maria Eduarda Avelino Prates', classificacao: 87 },
+      { nome: 'Graciely Ferreira Rodrigues', classificacao: 88 },
+      { nome: 'Cristina Schultz Kuhn', classificacao: 89 },
+      { nome: 'Lorena Pereira De Souza', classificacao: 90 },
+      { nome: 'Emerson Rodrigo Pereira Dos Santos', classificacao: 91 },
+      { nome: 'Izabelle Souza Delaterra De Assis', classificacao: 92 },
+      { nome: 'Ygor Garcia De Oliveira', classificacao: 93 },
+      { nome: 'Albert Natan De Oliveira Medeiros', classificacao: 94 },
+      { nome: 'Wesley Vinicius Bordas De Figueiredo', classificacao: 95 },
+      { nome: 'Cleyton Cassiano Ribeiro Rodrigues', classificacao: 96 },
+      { nome: 'Matheus Hemerson Nogueira Rodrigues', classificacao: 97 },
+      { nome: 'Fernanda Caroline Batistoti Simas', classificacao: 98 },
+      { nome: 'Eber De Morais Marinhas', classificacao: 99 },
+      { nome: 'Larissa Fernandes De Souza', classificacao: 100 },
+      { nome: 'Lucas Vinícius Conche De Souza', classificacao: 101 },
+      { nome: 'Karolyne Freitas Nascimento', classificacao: 102 },
+      { nome: 'Maria Estela Da Silva Casanova (Sub judice)', classificacao: 103 },
+      { nome: 'Gabriele Bezerra Porto', classificacao: 104 },
+      { nome: 'Brenda Rodrigues Ramires Ferreira', classificacao: 105 },
+      { nome: 'Isabella Catarina Rodrigues Jacob', classificacao: 106 },
+      { nome: 'Aline Szaubram', classificacao: 107 },
+      { nome: 'Luiz Felipe Minussi Da Silva', classificacao: 108 },
+      { nome: 'Adilson Antunes Martins', classificacao: 109 },
+      { nome: 'Brendo De Jesus Da Silva', classificacao: 110 },
+      { nome: 'Luciana Tinoco Machado', classificacao: 111 },
+      { nome: 'Sergio Willimann De Souza', classificacao: 112 },
+      { nome: 'Michele Petronilo Inzabral', classificacao: 113 },
+      { nome: 'Marcelos Simão Basílio Sobrinho', classificacao: 114 },
+      { nome: 'Lauana Elisa Ramalho De Souza', classificacao: 115 },
+      { nome: 'Caio Boaventura Da Silva', classificacao: 116 },
+      { nome: 'João Victor Guedes De Lima', classificacao: 117 },
+      { nome: 'Herick Matheus De Souza Exteca', classificacao: 118 },
+      { nome: 'Carla Caroline Pinto De Arruda', classificacao: 119 },
+      { nome: 'Daniel De Jesus Araújo', classificacao: 120 },
+      { nome: 'Fernanda Castelo Girard', classificacao: 121 },
+      { nome: 'Lucas Nogueira Tote', classificacao: 122 },
+      { nome: 'Stephanny Karoline Borges Sonchini', classificacao: 123 },
+      { nome: 'Debora Brites Ribeiro De Brites', classificacao: 124 },
+      { nome: 'Fagner Charles Ramos', classificacao: 125 },
+      { nome: 'Siéslem Menezes Sanche Pérez', classificacao: 126 },
+      { nome: 'Breno Rezende Rodrigues', classificacao: 127 },
+      { nome: 'João Matheus Navarro Dos Santos', classificacao: 128 },
+      { nome: 'Raquel Duarte Felipetto', classificacao: 129 },
+      { nome: 'Éverton Schirmann Rosati', classificacao: 130 },
+      { nome: 'Wenyberg De Mello Nunes', classificacao: 131 },
+      { nome: 'Alana Jaqueline Bellini Oliveira', classificacao: 132 },
+      { nome: 'Rodrigo Do Carmo Souza', classificacao: 133 },
+      { nome: 'Igor Figueiró Do Amaral', classificacao: 134 },
+      { nome: 'Emilaine Zorzi Leandro', classificacao: 135 },
+      { nome: 'Thalison Moreira Gouveia', classificacao: 136 },
+      { nome: 'Vinicius Brandao Borges', classificacao: 137 },
+      { nome: 'Renan Nogueira Navarro', classificacao: 138 },
+      { nome: 'Kevin Macalisrer Nogueira Barcellos', classificacao: 139 },
+      { nome: 'Afonso Cabreira Leao', classificacao: 140 },
+      { nome: 'Waldemar Santana Oliveira', classificacao: 141 },
+      { nome: 'Naijara Da Silva Dias', classificacao: 142 },
+      { nome: 'Ricardo Pereira Da Cruz Junior', classificacao: 143 },
+      { nome: 'Abner Diniz Sampaio Dos Santos', classificacao: 144 },
+      { nome: 'Lucas Batista Silva', classificacao: 145 },
+      { nome: 'Gabriel Lopes Almeida', classificacao: 146 },
+      { nome: 'Joao Gabriel Da Silva Dantas', classificacao: 147 },
+      { nome: 'Joao Paulo Pereira Montessi', classificacao: 148 },
+      { nome: 'Luiz Eduardo Da Paz Vitor', classificacao: 149 },
+      { nome: 'Kamaykel Santos De Oliveira', classificacao: 150 },
+    { nome: 'Jaime Gomes De Souza', classificacao: 151 },
+    { nome: 'Adriano Hilario Talarico Soletti', classificacao: 152 },
+    { nome: 'William Geovani Pinesso', classificacao: 153 },
+    { nome: 'Maraisa Mendes', classificacao: 154 },
+    { nome: 'Luiz Henrique Martins Medeiros', classificacao: 155 },
+    { nome: 'Patricia De Kassia Vasconcelos', classificacao: 156 },
+    { nome: 'Ana Carolina Vituriano Souza', classificacao: 157 },
+    { nome: 'Lucas Ribeiro Pires', classificacao: 158 },
+    { nome: 'Lucas Da Silva Machado', classificacao: 159 },
+    { nome: 'Diogenes Mauricio Machado', classificacao: 160 },
+    { nome: 'Marcus Vinicius Neves Caetano', classificacao: 161 },
+    { nome: 'Rodrigo Duarte Bono Belascusa', classificacao: 162 },
+    { nome: 'Eurico Renan Martins Dos Santos', classificacao: 163 },
+    { nome: 'Eliseo Brites De Moraes Neto', classificacao: 164 },
+    { nome: 'Renata Camila Da Costa Silva', classificacao: 165 },
+    { nome: 'Gabrielly Aparecida Marques Ribeiro', classificacao: 166 },
+    { nome: 'Laís Michels Fonseca', classificacao: 167 },
+    { nome: 'Eder Benites Petzold', classificacao: 168 },
+    { nome: 'Bruno Henrique Simões', classificacao: 169 },
+    { nome: 'Eberle Taysson Pereira Maciel', classificacao: 170 },
+    { nome: 'Arthur Victor Leon Caiubi Souza Silva', classificacao: 171 },
+    { nome: 'Vanessa Mendes Da Silva De Oliveira (Sub judice)', classificacao: 172 },
+    { nome: 'Moacir Felipe Araujo Lescano', classificacao: 173 },
+    { nome: 'Larissa Iara Alem de Oliveira', classificacao: 174 },
+    { nome: 'Giovana Viêro Peccini', classificacao: 175 },
+    { nome: 'Juliany Brito De Araujo', classificacao: 176 },
+    { nome: 'Bianca Cassupa Pereira', classificacao: 177 },
+    { nome: 'Jean Carlos Vilela De Melo', classificacao: 178 },
+    { nome: 'Carla Priscila Ferreira Miranda', classificacao: 179 },
+    { nome: 'Lucas Souza Gimenes', classificacao: 180 },
+    { nome: 'Thiago Germano De Figueiredo', classificacao: 181 },
+    { nome: 'Danielle Aguena Martos Costa', classificacao: 182 },
+    { nome: 'Isaias Simoel Gimenez Miotti', classificacao: 183 },
+    { nome: 'Fernando Borges Zwicker', classificacao: 184 },
+    { nome: 'Jamielle Fernanda Duarte De Amorim', classificacao: 185 },
+    { nome: 'Neemias De Souza Jeremias', classificacao: 186 },
+    { nome: 'Vitor Hugo Da Silva Santos', classificacao: 187 },
+    { nome: 'Rick Kendy Iwashiro', classificacao: 188 },
+    { nome: 'Alisson Monteiro Calazans', classificacao: 189 },
+    { nome: 'Fernanda Isfran Da Silva', classificacao: 190 },
+    { nome: 'Michael Francisco Da Silva (Sub judice)', classificacao: 191 },
+    { nome: 'Mattheus Cardenas Souza', classificacao: 192 },
+    { nome: 'Giovani Teixeira Da Silva (Sub judice)', classificacao: 193 },
+    { nome: 'Gustavo Rodrigues Lemes', classificacao: 194 },
+    { nome: 'Nathalia Welika Dos Santos Araujo', classificacao: 195 },
+    { nome: 'Luís Flávio Isaías Lopes', classificacao: 196 },
+    { nome: 'Magno Leoncio Sanches Saraiva', classificacao: 197 },
+    { nome: 'Lucas Matos Do Nascimento', classificacao: 198 },
+    { nome: 'Janaína Da Silva Carvalho Santos', classificacao: 199 },
+    { nome: 'Mauricio Matheus De França Araujo', classificacao: 200 },
+    { nome: 'Isaque Meleschco Arguelho', classificacao: 201 },
+    { nome: 'Junior Cesar Rodrigues Colombo', classificacao: 202 },
+    { nome: 'Maíra De Brito Rodrigues Alves', classificacao: 203 },
+    { nome: 'Rafael Vasques Ribeiro', classificacao: 204 },
+    { nome: 'Thalia Da Silva Bezerra', classificacao: 205 },
+    { nome: 'Gustavo Ribeiro Dos Santos', classificacao: 206 },
+    { nome: 'Thor Brum De Oliveira', classificacao: 207 },
+    { nome: 'Felipe David De Oliveira', classificacao: 208 },
+    { nome: 'Marcos Da Silva Rezende', classificacao: 209 },
+    { nome: 'Stefan Wolff', classificacao: 210 },
+    { nome: 'César Francisco Quirino', classificacao: 211 },
+    { nome: 'Gabrielle Angel Leiko Rezende Nakashima', classificacao: 212 },
+    { nome: 'Renan Matheus Oliveira Do Nascimento', classificacao: 213 },
+    { nome: 'Bruno Noé Eger Sampaio', classificacao: 214 },
+    { nome: 'Raquel Aparecida Lima Silva', classificacao: 215 },
+    { nome: 'Francisco Rondon Neto', classificacao: 216 },
+    { nome: 'Rafael Henrique Nogueira Roncada', classificacao: 217 },
+    { nome: 'Henrique Barbosa Coelho', classificacao: 218 },
+    { nome: 'Lucas Farias Alves', classificacao: 219 },
+    { nome: 'Taina Da Silva', classificacao: 220 },
+    { nome: 'Elaine Maria Ramos Dos Santos', classificacao: 221 },
+    { nome: 'José Davi Da Silva De Oliveira', classificacao: 222 },
+    { nome: 'Rafael Lemos', classificacao: 223 },
+    { nome: 'Ana Julia Muniz Lemes', classificacao: 224 },
+    { nome: 'Laércio Antonio De Sena Júnior', classificacao: 225 },
+    { nome: 'Wesley Pereira Dos Santos', classificacao: 226 },
+    { nome: 'Nikolas Rezende Obregão Nogueira', classificacao: 227 },
+    { nome: 'Moises Sousa Santiago', classificacao: 228 },
+    { nome: 'Fábio Cabral De Moraes', classificacao: 229 },
+    { nome: 'Tiago Tadeu Mendes Nepomuceno Salles', classificacao: 230 },
+    { nome: 'Rogerio Mendes Da Silva', classificacao: 231 },
+    { nome: 'Hercules Miranda Da Silva', classificacao: 232 },
+    { nome: 'Arthur Natan Santos Silva', classificacao: 233 },
+    { nome: 'Matheus Da Cruz Alves', classificacao: 234 },
+    { nome: 'Luana Cristina Avelino', classificacao: 235 },
+    { nome: 'Geovane Da Rocha Silva', classificacao: 236 },
+    { nome: 'Álysson Igor Rodrigues Leite', classificacao: 237 },
+    { nome: 'Quezia Jaime De Jesus', classificacao: 238 },
+    { nome: 'Danilo Barbosa Lima De Santana', classificacao: 239 },
+    { nome: 'Cleiton Rodrigues De Oliveira', classificacao: 240 },
+    { nome: 'João Vitor De Araújo Cunha', classificacao: 241 },
+    { nome: 'Joao Marcos Vilela Lopes', classificacao: 242 },
+    { nome: 'Andressa Patricia Soares De Castro', classificacao: 243 },
+    { nome: 'Rafael Theodoro Serpa', classificacao: 244 },
+    { nome: 'Alberto José Paim De Lima Filho', classificacao: 245 },
+    { nome: 'Elis Fernanda Da Silva Oliveira', classificacao: 246 },
+    { nome: 'Aline Stefani Lima Ostemberg', classificacao: 247 },
+    { nome: 'Amanda Dourado Espindola', classificacao: 248 },
+    { nome: 'Paulo André Argerin Rossatto', classificacao: 249 },
+    { nome: 'Bárbara Ribeiro Remonti', classificacao: 250 },
+    { nome: 'Gabriel Matheus Gouveia De Lima', classificacao: 251 },
+    { nome: 'Evania Custódio Lopes', classificacao: 252 },
+    { nome: 'Tainá Marques Taborga Sandim', classificacao: 253 },
+    { nome: 'Paloma Grazielli Gomes Dos Anjos', classificacao: 254 },
+    { nome: 'Brian Girotto', classificacao: 255 },
+    { nome: 'Daniel Chaves Martins', classificacao: 256 },
+    { nome: 'Gleici Ferreira Furman', classificacao: 257 },
+    { nome: 'Izamara Casadia', classificacao: 258 },
+    { nome: 'Douglas Sousa Tosta', classificacao: 259 },
+    { nome: 'Vinicius Eduardo De Almeida Santos', classificacao: 260 },
+    { nome: 'Fúlvio Souza De Souza', classificacao: 261 },
+    { nome: 'Patrick Emerson Da Costa', classificacao: 262 },
+    { nome: 'Alana De Sousa Oliveira Gamarra', classificacao: 263 },
+    { nome: 'Carla Rebecca Barreto De Aguiar Esteves', classificacao: 264 },
+    { nome: 'Lucio Vinicius Santos De Souza', classificacao: 265 },
+    { nome: 'Herick Pereira Magalhaes', classificacao: 266 },
+    { nome: 'Edilene Da Silva Maldonado', classificacao: 267 },
+    { nome: 'Douglas Brito De Oliveira', classificacao: 268 },
+    { nome: 'Bruno Jesus Dourado', classificacao: 269 },
+    { nome: 'Kawam Gabriel Rodrigues Campos', classificacao: 270 },
+    { nome: 'Daniely Silva De Albuquerque', classificacao: 271 },
+    { nome: 'Thiago Vinicius Fonseca De Oliveira', classificacao: 272 },
+    { nome: 'Angélica Freire Bettencourt', classificacao: 273 },
+    { nome: 'Leandro Carvalho De Souza', classificacao: 274 },
+    { nome: 'Augusto De Almeida Damasceno', classificacao: 275 },
+    { nome: 'Jefferson Canabarra Peixoto', classificacao: 276 },
+    { nome: 'Renato Ossuna Da Silva', classificacao: 277 },
+    { nome: 'Luciano Junior Torale Gonçalves', classificacao: 278 },
+    { nome: 'Lucas Henrique De Sena Marques', classificacao: 279 },
+    { nome: 'Flavio Alves Ribeiro', classificacao: 280 },
+    { nome: 'Jaiane Dayci Silva', classificacao: 281 },
+    { nome: 'Willian De Oliveira Papa', classificacao: 282 },
+    { nome: 'Gabriel De Oliveira Antunes', classificacao: 283 },
+    { nome: 'Wesley Souza Almeida', classificacao: 284 },
+    { nome: 'Gabriela Caroline De Souza', classificacao: 285 },
+    { nome: 'Liene Cristina De Oliveira Rodrigues Moreira', classificacao: 286 },
+    { nome: 'Nathaly Gonçalves Leite Lima', classificacao: 287 },
+    { nome: 'Renan Pereira Coimbra', classificacao: 288 },
+    { nome: 'Reginaldo Muller Pinto Gerolin', classificacao: 289 },
+    { nome: 'Damiao Caboclo Da Silva', classificacao: 290 },
+    { nome: 'Neyenne Caldeira Rocha Lopes', classificacao: 291 },
+    { nome: 'Marcos Henrique Da Cunha Franco', classificacao: 292 },
+    { nome: 'Leonardo Santos Correia', classificacao: 293 },
+    { nome: 'Celino Magalhães Filho', classificacao: 294 },
+    { nome: 'Mozane Evelin Vilela Teodoro', classificacao: 295 },
+    { nome: 'Wellinton Menezes Grance', classificacao: 296 },
+    { nome: 'Arthur Rodrigues De Mendonca', classificacao: 297 },
+    { nome: 'Alessandro Gonçalves Da Silva', classificacao: 298 },
+    { nome: 'Thiago Wotekoski Iglesias', classificacao: 299 },
+    { nome: 'Fábio Andrade Dos Santos Silva', classificacao: 300 },
+    { nome: 'Marcelo Henrique Nogueira Dos Santos', classificacao: 301 },
+    { nome: 'Karthylith Rodrigues Vianna', classificacao: 302 },
+    { nome: 'Jeovana Lima Gavilan', classificacao: 303 },
+    { nome: 'Munir Sami Campitelli Ibrahim', classificacao: 304 },
+    { nome: 'Gabriel Rodrigues De Oliveira', classificacao: 305 },
+    { nome: 'Lady Maria Canhete Contrera', classificacao: 306 },
+    { nome: 'Alice Dos Santos Saab', classificacao: 307 },
+    { nome: 'Edlene De Souza Haveroth', classificacao: 308 },
+    { nome: 'Marlon Gabriel De Souza Silva', classificacao: 309 },
+    { nome: 'Larissa Cruz Lopes', classificacao: 310 },
+    { nome: 'Diego Benedito Da Silva Moreira', classificacao: 311 },
+    { nome: 'Tamires Raquel Aguirre Arevalo', classificacao: 312 },
+    { nome: 'Luana Maria Sandim Santos', classificacao: 313 },
+    { nome: 'Alex Lima De Souza', classificacao: 314 },
+    { nome: "Murilo De Souza Rodrigues", classificacao: 315 },
+  { nome: "Lincon Eder Ribeiro Valverde", classificacao: 316 },
+  { nome: "Luiz Henrique Costa De Oliveira", classificacao: 317 },
+  { nome: "Andrey Jeverson Pereira Da Silva Morais", classificacao: 318 },
+  { nome: "Andressa Sousa Santos Coqueiro", classificacao: 319 },
+  { nome: "Joshuan Sousa Valdez", classificacao: 320 },
+  { nome: "Vinicius De Araujo Marques", classificacao: 321 },
+  { nome: "Fernando Pereira Sales", classificacao: 322 },
+  { nome: "Jessika Ribeiro Mimoso", classificacao: 323 },
+  { nome: "Ana Carolina Ormond De Souza Carvalho", classificacao: 324 },
+  { nome: "Murilo Henrique Bezerra Araújo", classificacao: 325 },
+  { nome: "Lucas Xavier De Souza Oba (Sub Judice)", classificacao: 326 },
+  { nome: "Daniel Guttemberg Ferreira De Brito", classificacao: 327 },
+  { nome: "Andressa Da Silva Lovera", classificacao: 328 },
+  { nome: "Joao Pedro Machado Neres", classificacao: 329 },
+  { nome: "Bruna Pereira Schumann", classificacao: 330 },
+  { nome: "Maycon Fernando Da Gloria Toledo", classificacao: 331 },
+  { nome: "Luiz Fernando Milagres Alves", classificacao: 332 },
+  { nome: "David Rodrigues Ribeiro", classificacao: 333 },
+  { nome: "Luana Schubert", classificacao: 334 },
+  { nome: "Rafael Peres Ramiro", classificacao: 335 },
+  { nome: "Alan Da Silva Casal Batista", classificacao: 336 },
+  { nome: "Ludson De Lima Vargas", classificacao: 337 },
+  { nome: "Thiago Ramos De Lima", classificacao: 338 },
+  { nome: "João Pedro Dim Bergi", classificacao: 339 },
+  { nome: "Djalma Henrique Rezende Veiga", classificacao: 340 },
+  { nome: "Rafaela Vieira Neiva", classificacao: 341 },
+  { nome: "Gisele Marques Da Silva", classificacao: 342 },
+  { nome: "Leonardo Felipe De Almeida", classificacao: 343 },
+  { nome: "Vinnicius Silva Borges", classificacao: 344 },
+  { nome: "Willia Lino Souza", classificacao: 345 },
+  { nome: "Gelson Firmo", classificacao: 346 },
+  { nome: "Abimael Correia Marques", classificacao: 347 },
+  { nome: "Paulo Ricardo Da Silva De Freitas", classificacao: 348 },
+  { nome: "Marcelo Pimenta Da Silva", classificacao: 349 },
+  { nome: "Vinicius Rovari De Cristo", classificacao: 350 },
+  { nome: "Murilo Henrique Medeiros Rosa", classificacao: 351 },
+  { nome: "Jéssyca Ellen Weissinger", classificacao: 352 },
+  { nome: "Henrique Bispo Vaz", classificacao: 353 },
+  { nome: "Pablo Giovane De Oliveira De Souza Maldonado", classificacao: 354 },
+  { nome: "Jessica Hillary Melo Sobrinho", classificacao: 355 },
+  { nome: "Laura Félix Barbosa", classificacao: 356 },
+  { nome: "Jéferson Salla", classificacao: 357 },
+  { nome: "Ulpiano Jacquet Filho", classificacao: 358 },
+  { nome: "Rânily Ribeiro Graça", classificacao: 359 },
+  { nome: "Camila De Souza Gonçalves", classificacao: 360 },
+  { nome: "Felipe Martins De Souza Costa", classificacao: 361 },
+  { nome: "Jean Luca Dos Reis Bobadilha", classificacao: 362 },
+  { nome: "Sidnei Gonçalves Ortega", classificacao: 363 },
+  { nome: "Mateus Penha Ribeiro Da Silveira", classificacao: 364 },
+  { nome: "Mauro Vieira Da Costa", classificacao: 365 },
+  { nome: "Talicia Camila Bezerra Carvalho", classificacao: 366 },
+  { nome: "Débora De Souza Ferreira", classificacao: 367 },
+  { nome: "Brenda Ferreira Caríssimo Picorelli", classificacao: 368 },
+  { nome: "Ingrit Amarante Sabino De Oliveira", classificacao: 369 },
+  { nome: "João Gabriel Mendes Chaves", classificacao: 370 },
+  { nome: "Bruno Ferreira Peres", classificacao: 371 },
+  { nome: "Jônatas Triunfo Da Silva Nascimento", classificacao: 372 },
+  { nome: "Vitor Nantes Lemos", classificacao: 373 },
+  { nome: "Felipe Barros Garcia", classificacao: 374 },
+  { nome: "Alisson Vinicius Da Silva Lima", classificacao: 375 },
+  { nome: "Vinícius Moraes Menezes", classificacao: 376 },
+  { nome: "Israel Pinto Da Silva Filho", classificacao: 377 },
+  { nome: "Gustavo Metello", classificacao: 378 },
+  { nome: "Evellyn Martinez Maia", classificacao: 379 },
+  { nome: "Bruno Pereira Carvalho Barbosa", classificacao: 380 },
+  { nome: "Alécio Andrade Leite", classificacao: 381 },
+  { nome: "Bruna Larissa Gonçalves Pires", classificacao: 382 },
+  { nome: "Felipe Rezende De Oliveira Lima", classificacao: 383 },
+  { nome: "Nathalia Gonçalves Da Silveira", classificacao: 384 },
+  { nome: "Gustavo Henrique Medeiros De Oliveira", classificacao: 385 },
+  { nome: "Misael Lima De Mesquita Júnior", classificacao: 386 },
+  { nome: "Daniel Kerestesi Freire", classificacao: 387 },
+  { nome: "Laercio Cassel Dos Santos", classificacao: 388 },
+  { nome: "Diego Henrique Da Silva Carvalho", classificacao: 389 },
+  { nome: "Andressa Batista Espirito Santo", classificacao: 390 },
+  { nome: "Rivelton Silva De Moraes", classificacao: 391 },
+  { nome: "Caique Gomes De Oliveira", classificacao: 392 },
+  { nome: "Nathalia Yasmine Tolentino Vilela", classificacao: 393 },
+  { nome: "Nayanne Rodrigues Gervasio", classificacao: 394 },
+  { nome: "Ana Júlia Barbosa Aguilera", classificacao: 395 },
+  { nome: "Caio Lucas Oliveira Andrade", classificacao: 396 },
+  { nome: "Andressa Porto De Oliveira", classificacao: 397 },
+  { nome: "Mateus David Dutra Pereira", classificacao: 398 },
+  { nome: "Cristiane Matos Da Silva", classificacao: 399 },
+  { nome: "Lucas Mendonça Vargas", classificacao: 400 },
+  { nome: "Wuilker Rafael Da Silva Garcia", classificacao: 401 },
+  { nome: "Carlos Eduardo Dos Santos Dias", classificacao: 402 },
+  { nome: "Leonardo Bruno Fernandes Moreira", classificacao: 403 },
+  { nome: "Inara Freitas Do Nascimento", classificacao: 404 },
+  { nome: "Kenia Rocha Tavares", classificacao: 405 },
+  { nome: "Ivan Tobias De Oliveira", classificacao: 406 },
+  { nome: "Eduardo Silveira Damaceno", classificacao: 407 },
+  { nome: "Paulo Cesar De Souza Novaes", classificacao: 408 },
+  { nome: "Wesley Joao Rodrigues", classificacao: 409 },
+  { nome: "Tércio Arévalo De Aquino", classificacao: 410 },
+  { nome: "Alan Nunes De Souza", classificacao: 411 },
+  { nome: "Luiz Eduardo De Jesus Guedes", classificacao: 412 },
+  { nome: "Antonio Luan De Lima", classificacao: 413 },
+  { nome: "Leandro Dias Catellan Teixeira", classificacao: 414 },
+  { nome: "Vinicius Henrique Gonçalves Portilho", classificacao: 415 },
+  { nome: "Lucas Vinícius Almiron Dos Santos", classificacao: 416 },
+  { nome: "Wender Pereira", classificacao: 417 },
+  { nome: "Higor Rodrigues Oliveira", classificacao: 418 },
+  { nome: "Vinicius Correa Bianco", classificacao: 419 },
+  { nome: "Thais Ferreira Mendes", classificacao: 420 },
+  { nome: "Iara Aparecida Ribeiro", classificacao: 421 },
+  { nome: "Karoline Melo De Oliveira Pi Ferrario", classificacao: 422 },
+  { nome: "Fernando Henrique Assis De Andrade", classificacao: 423 },
+  { nome: "Leticia Dantas Da Silva (Sub judice)", classificacao: 424 },
+    { nome: "Rafael Ferreira Segundo", classificacao: 425 },
+    { nome: "Daniel Macedo Matos Da Silva", classificacao: 426 },
+    { nome: "Gustavo Henrique Dos Santos Noetzold", classificacao: 427 },
+    { nome: "Gabriel Felix Cabral", classificacao: 428 },
+    { nome: "Milene Silva Lima Bomfim", classificacao: 429 },
+    { nome: "Ingrid Tuanne Do Carmo Dias", classificacao: 430 },
+    { nome: "Caio Da Silva Laguna", classificacao: 431 },
+    { nome: "Marcus Vinycius Lourenço Ferreira", classificacao: 432 },
+    { nome: "Jéssica Ayumi Uehara Aguilera", classificacao: 433 },
+    { nome: "Bruno Henrique Da Silva Martins", classificacao: 434 },
+    { nome: "Renan Wilson Varanis Da Silva", classificacao: 435 },
+    { nome: "Renato Stoco De Machado", classificacao: 436 },
+    { nome: "Renato De Alencar Ricaldes", classificacao: 437 },
+    { nome: "Luany Thaynara Louzan", classificacao: 438 },
+    { nome: "Adailton Pireli Costa", classificacao: 439 },
+    { nome: "Igor Cesar Severo Antunes", classificacao: 440 },
+    { nome: "Lucas Lincoln De Oliveira Matsumoto", classificacao: 441 },
+    { nome: "Bruna Camila Ajala Araldi", classificacao: 442 },
+    { nome: "Vinicius Araujo Soares", classificacao: 443 },
+    { nome: "Jean Marcos Franco De Souza", classificacao: 444 },
+    { nome: "Vinicius Guimaraes De Carvalho", classificacao: 445 },
+    { nome: "Wilian Oliveira De Freitas", classificacao: 446 },
+    { nome: "Fernando Numeriano De Oliveira", classificacao: 447 },
+    { nome: "Lucas Calixto Paz Bezerra", classificacao: 448 },
+    { nome: "Kelly Cristina Cândido Dos Santos", classificacao: 449 },
+    { nome: "Isabela De Oliveira Da Riva", classificacao: 450 },
+    { nome: "Weverton Gabriel De Barros Marques", classificacao: 451 },
+    { nome: "Wevertton Cristiano Anjos Dos Santos", classificacao: 452 },
+    { nome: "Lucas Dias Pinheiro", classificacao: 453 },
+    { nome: "Jailzon Da Silva Rodrigues", classificacao: 454 },
+    { nome: "Marcel Junio Da Silva Souza", classificacao: 455 },
+    { nome: "Mailson Francisco Da Silva", classificacao: 456 },
+    { nome: "Marcos Augusto De Sousa", classificacao: 457 },
+    { nome: "Kaio Lima Da Silva", classificacao: 458 },
+    { nome: "Rubiany Vasconcelos Duarte", classificacao: 459 },
+    { nome: "Alan Carlos Miranda De Oliveira Cruz", classificacao: 460 },
+    { nome: "Ronaldo Menão Jesus", classificacao: 461 },
+    { nome: "Julia Beatriz Paz Pedroso", classificacao: 462 },
+    { nome: "Ulisses Guimarães Sanches", classificacao: 463 },
+    { nome: "Geraldo Claudio Pereira", classificacao: 464 },
+    { nome: "Cleber Da Silva Ramirez", classificacao: 465 },
+    { nome: "Mariana Pereira De Almeida", classificacao: 466 },
+    { nome: "Pedro Paulo Machado Rodrigues", classificacao: 467 },
+    { nome: "Joice Cristina Moreno Fernandes", classificacao: 468 },
+    { nome: "João Victor Fagundes Silva", classificacao: 469 },
+    { nome: "Nicole Bezerra Vaz", classificacao: 470 },
+    { nome: "Beatriz Da Silva Pimenta", classificacao: 471 },
+    { nome: "Ranon Louran Do Espirito Santo Costa", classificacao: 472 },
+    { nome: "Mayse Rice Silveira Cardoso", classificacao: 473 },
+    { nome: "Osvaldo Gonzalez", classificacao: 474 },
+    { nome: "Mira Celi Nazare Dias Basilio", classificacao: 475 },
+    { nome: "Steffano Mingotti Dias", classificacao: 476 },
+    { nome: "Vitor Da Silva Lima", classificacao: 477 },
+    { nome: "Murilo De Lima Silva", classificacao: 478 },
+    { nome: "Raphaela Heloína Schiemann", classificacao: 479 },
+    { nome: "Felipe Wellington De Oliveira Sousa", classificacao: 480 },
+    { nome: "Marinara Alexandre Da Silva", classificacao: 481 },
+    { nome: "Tiago Wisenfad Lopes", classificacao: 482 },
+    { nome: "André Luiz Pereira Leite Junior", classificacao: 483 },
+    { nome: "Edinei Machado De Almeida", classificacao: 484 },
+    { nome: "Paulo Henrique Ferreira Do Nascimento", classificacao: 485 },
+    { nome: "Aldair Canuto Do Nascimento", classificacao: 486 },
+    { nome: "Fabrício Palmeira Rios Santos", classificacao: 487 },
+    { nome: "Adna Da Silva Rabello", classificacao: 488 },
+    { nome: "Léo De Medeiros Guimarães Neto", classificacao: 489 },
+    { nome: "Ana Carolina Mugarte Potrich", classificacao: 490 },
+    { nome: "Beatriz Carvalho Sottolano", classificacao: 491 },
+    { nome: "Lucas Bryan Alencar De Oliveira", classificacao: 492 },
+    { nome: "Rodrigo Da Rocha Rosati", classificacao: 493 },
+    { nome: "Martinho Eduardo Pereira Filho", classificacao: 494 },
+    { nome: "Juliana De Rezende De Souza", classificacao: 495 },
+    { nome: "Jose Robson Sanabria Trindade", classificacao: 496 },
+    { nome: "Rayani Barros Freitas", classificacao: 497 },
+    { nome: "Daniela Oliveira De Souza", classificacao: 498 },
+    { nome: "Flávio Luis Villalba Urquiza Junior", classificacao: 499 },
+    { nome: "Gladison Bezerra Vieira", classificacao: 500 },
+    { nome: "Vinícius Argemon Pereira Benites", classificacao: 501 },
+    { nome: "Luiz Henrique Alves De Oliveira", classificacao: 502 },
+    { nome: "Mateus Pinheiro De Oliveira", classificacao: 503 },
+    { nome: "Jéssica Ferreira Cescon", classificacao: 504 },
+    { nome: "Danielle Dos Santos Souza", classificacao: 505 },
+    { nome: "Augusto Gameiro", classificacao: 506 },
+    { nome: "Thiago Fagundes Lemos", classificacao: 507 },
+    { nome: "José Eduardo Duarte Da Silva", classificacao: 508 },
+    { nome: "Icaro Almeida Lemos Alves", classificacao: 509 },
+    { nome: "Lauro Dalaqua Junior", classificacao: 510 },
+    { nome: "Fernando Jorge De Lima", classificacao: 511 },
+    { nome: "Ana Paula Rezende Dos Santos", classificacao: 512 },
+    { nome: "Sindi Sabrina Pedroso Cubilla", classificacao: 513 },
+    { nome: "Gustavo Da Silva Aparecido", classificacao: 514 },
+    { nome: "Samuel Lucas Diniz", classificacao: 515 },
+    { nome: "Cleber Da Silva", classificacao: 516 },
+    { nome: "Daniel Almada Messa", classificacao: 517 },
+    { nome: "Danilo Eugênio Ferreira Moraes", classificacao: 518 },
+    { nome: "Rafaely Carvalho Alves", classificacao: 519 },
+    { nome: "Viviane Inez Satirito Silvestre", classificacao: 520 },
+    { nome: "Gleidson Souza Carvalho", classificacao: 521 },
+    { nome: "Raul Do Amaral Vieira", classificacao: 522 },
+    { nome: "Gabriella Gazola De Melo", classificacao: 523 },
+    { nome: "Junio Ferreira Da Silva", classificacao: 524 },
+    { nome: "Carlos Pedro Meiato Da Silva", classificacao: 525 },
+    { nome: "Alison Perira Braga", classificacao: 526 },
+    { nome: "Leandro Barros Schencknecht", classificacao: 527 },
+    { nome: "Bruna Ferreira Garbin", classificacao: 528 },
+    { nome: "Gabriel Martins Duarte", classificacao: 529 },
+    { nome: "Sanny Mara Dos Santos Lima", classificacao: 530 },
+    { nome: "Larissa Dos Santos Costa", classificacao: 531 },
+    { nome: "Anay Crystyna Freitas De Souza", classificacao: 532 },
+    { nome: "Henrique De Souza Santos", classificacao: 533 },
+    { nome: "Matheus Almeida De Moura Monteiro De Oliveira", classificacao: 534 },
+    { nome: "Fernanda Antunes Rezende", classificacao: 535 },
+    { nome: "Lucas Costa Soares", classificacao: 536 },
+    { nome: "Emilly De Lima Moraes", classificacao: 537 },
+    { nome: "Rafael Madeira De Oliveira", classificacao: 538 },
+    { nome: "Érica Freitas Rojas Vieira", classificacao: 539 },
+    { nome: "Natalia Ester Correa Ramalho", classificacao: 540 },
+    { nome: "Vitor Augusto Souza De Carvalho", classificacao: 541 },
+    { nome: "Sayuri Hirasaka", classificacao: 542 },
+    { nome: "Lethicia Megaioli De Oliveira", classificacao: 543 },
+    { nome: "Adeandrea Peixoto Moraes Santana", classificacao: 544 },
+    { nome: "Willian Costa Dias", classificacao: 545 },
+    { nome: "Alexandre Rosa Flores", classificacao: 546 },
+    { nome: "Luiz Pegoraro Junior", classificacao: 547 },
+    { nome: "Danilo Maciel De Lima", classificacao: 548 },
+    { nome: "Thiago Da Silva Martins", classificacao: 549 },
+    { nome: "Pâmela Fernandes Pereira", classificacao: 550 },
+    { nome: "Junior Hoinoski Cordeiro", classificacao: 551 },
+    { nome: "Diego Pereira Coelho", classificacao: 552 },
+    { nome: "Luiz Henrique Silva Dos Santos", classificacao: 553 },
+    { nome: "Raiane Da Silva", classificacao: 554 },
+    { nome: "Bianca Marques Dos Santos", classificacao: 555 },
+    { nome: "Haryson Lucas De Souza Jorge", classificacao: 556 },
+    { nome: "Petronio Neres Da Silva", classificacao: 557 },
+    { nome: "Luana Neves Da Silva", classificacao: 558 },
+    { nome: "Munyr Luna Barion", classificacao: 559 },
+    { nome: "Rodrigo Orro De Campos Viega", classificacao: 560 },
+    { nome: "Jó Noélcio Anoar De Melo Ávila", classificacao: 561 },
+    { nome: "Regiane Vitoria Perin Ortega", classificacao: 562 },
+    { nome: "Bruno Gracini Macedo", classificacao: 563 },
+    { nome: "Joilhan Kelvis De Assis Pires", classificacao: 564 },
+    { nome: "Rafael Angelozi De Souza", classificacao: 565 },
+    { nome: "Jean Carlos De Freitas Da Silva", classificacao: 566 },
+    { nome: "Pedro Henrique Fuzario Custodio", classificacao: 567 },
+    { nome: "Weslen Dos Santos Resende", classificacao: 568 },
+    { nome: "Jeferson Rolon De Assis", classificacao: 569 },
+    { nome: "Farney Mendes Fontoura", classificacao: 570 },
+    { nome: "Matheus Andriu De Miranda Silva", classificacao: 571 },
+    { nome: "Jéfiton De Souza Polidório", classificacao: 572 },
+    { nome: "Matheus Henrique De Lima Vilela", classificacao: 573 },
+    { nome: "Eziel Do Amaral Centurion", classificacao: 574 },
+    { nome: "Abimael Vicente De Souza Machado", classificacao: 575 },
+    { nome: "Wagner Alves Pereira", classificacao: 576 },
+    { nome: "Paulliane Martins Souza", classificacao: 577 },
+    { nome: "Jeferson Saucedo Amorim", classificacao: 578 },
+    { nome: "Willian Villamayor Fernandes Da Silva", classificacao: 579 },
+    { nome: "Diego Da Silva Souza", classificacao: 580 },
+    { nome: "Lucas Vaz Nemezio Da Silva Silveira", classificacao: 581 },
+    { nome: "Ana Paula Fortes", classificacao: 582 },
+    { nome: "Pamela Ferraz De Albuquerque", classificacao: 583 },
+    { nome: "Wenderson Da Silva Cavalcante", classificacao: 584 },
+    { nome: "Thécia Lourenço Furtado", classificacao: 585 },
+    { nome: "Alisson Araujo Ferreira", classificacao: 586 },
+    { nome: "Gabriel Abrahão Gomes De Oliveira", classificacao: 587 },
+    { nome: "Fuad Alessandro Gonçalves Da Rocha", classificacao: 588 },
+    { nome: "Rodrigo Onofre Maurer Tavares", classificacao: 589 },
+    { nome: "Rafael Torquato De Escobar", classificacao: 590 },
+    { nome: "Amanda Da Silva Gomes", classificacao: 591 },
+    { nome: "Fabricio Santos E Costa Salgado", classificacao: 592 },
+    { nome: "Matheus Dos Santos Pitol", classificacao: 593 },
+    { nome: "Leonardo Da Rosa Aivi", classificacao: 594 },
+    { nome: "Giullian Batista Vialle", classificacao: 595 },
+    { nome: "Lincoln Calistro Berro", classificacao: 596 },
+    { nome: "Jose Gomes Pereira Neto", classificacao: 597 },
+    { nome: "Natalia Evelin Alves Dos Reis", classificacao: 598 },
+    { nome: "Isabella Fidelis", classificacao: 599 },
+    { nome: "Carlos Eduardo Da Silva Filho", classificacao: 600 },
+    { nome: "Matheus Ferreira Sonohata", classificacao: 601 },
+    { nome: "Raphael Vilalva De Queiroz", classificacao: 602 },
+    { nome: "Lucas Ovelar Leme", classificacao: 603 },
+    { nome: "Eduardo Santana De Moura Sousa", classificacao: 604 },
+    { nome: "Wellington Flores De Castro", classificacao: 605 },
+    { nome: "Tiago Andre Da Silva Dias", classificacao: 606 },
+    { nome: "Cássio Sales Cassimiro", classificacao: 607 },
+    { nome: "Luciane Oliveira Portela Pissini", classificacao: 608 },
+    { nome: "Gabriel Schmitt Schroeder", classificacao: 609 },
+    { nome: "Luis Henrique Silva Leao", classificacao: 610 },
+    { nome: "Daniel Nunes Guimarães", classificacao: 611 },
+    { nome: "Julio Cesar Seccatto", classificacao: 612 },
+    { nome: "Fernanda Mortari Végas", classificacao: 613 },
+    { nome: "Deivid An Martins De Arruda", classificacao: 614 },
+    { nome: "Marcos Eloy Giron", classificacao: 615 },
+    { nome: "Thiago Aparecido Ramos Pertile", classificacao: 616 },
+    { nome: "Laurielene Elen Arruda Silva Deodato", classificacao: 617 },
+    { nome: "Heloísa Polacchine Leite", classificacao: 618 },
+    { nome: "Bárbara Marinho Azevedo", classificacao: 619 },
+    { nome: "Cristhian Freitas Batista", classificacao: 620 },
+    { nome: "Julio Cesar Torres Junior", classificacao: 621 },
+    { nome: "Raul Murilo Camacho Seba", classificacao: 622 },
+    { nome: "Polyana Jessyca Felisardo Gonçalves Wruck", classificacao: 623 },
+    { nome: "Carlos Henrique Cabanhas De Oliveira", classificacao: 624 },
+    { nome: "Fani Elizabeth Ojeda", classificacao: 625 },
+    { nome: "José Fernando Manzione Paes De Barros", classificacao: 626 },
+    { nome: "Caio Alexandre Navarro Antonio", classificacao: 627 },
+    { nome: "Mikael Dos Santos Ortiz", classificacao: 628 },
+    { nome: "Carlos Eduardo Martins Silva", classificacao: 629 },
+    { nome: "Gabriel Florenciano Ferreira", classificacao: 630 },
+    { nome: "Adeilson Rodrigues Faria", classificacao: 631 },
+    { nome: "Watson Lima Da Silva", classificacao: 632 },
+    { nome: "Leonardo Paniago Teodoro Almeida", classificacao: 633 },
+    { nome: "Luan Matheus Da Silva Amorim", classificacao: 634 },
+    { nome: "José Euclides Da Silva Neto", classificacao: 635 },
+    { nome: "Michele Kuchar Matte", classificacao: 636 },
+    { nome: "Camila Santiago Da Silva", classificacao: 637 },
+    { nome: "Wanderley Campos Pereira Junior", classificacao: 638 },
+    { nome: "Rhaiana Borges Pereira", classificacao: 639 },
+    { nome: "Hayana Fardim da Gama", classificacao: 640 },
+    { nome: "Pamela Aparecida Azevedo De Paula", classificacao: 641 },
+    { nome: "Huender Lucas Farias De Sousa", classificacao: 642 },
+    { nome: "Lucas Barros Garcia", classificacao: 643 },
+    { nome: "Luiz Felippe Antunes Ribeiro", classificacao: 644 },
+    { nome: "Natália Godoi De Oliveira Fagundes", classificacao: 645 },
+    { nome: "Michael Carmona De Almeida", classificacao: 646 },
+    { nome: "Daniel Paredes De França", classificacao: 647 },
+    { nome: "Millena Christine Dezan Da Fonseca", classificacao: 648 },
+    { nome: "Leandro Hideyuki Mori", classificacao: 649 },
+    { nome: "Wanderson Bach Queiroz", classificacao: 650 },
+    { nome: "Renan Mamedes Delmão De Sena", classificacao: 651 },
+  ];
+
+    
+
     const [nomesUsuarios, setNomesUsuarios] = useState([]);
 
     async function fetchNomesUsuarios() {
@@ -704,136 +1360,6 @@ function AuthProvider({children}){
     useEffect(() => {
       fetchNomesUsuarios();
     }, []);
-
-    // async function atualizarNomesParaMaiusculas() {
-    //   try {
-    //     // Busca todos os documentos da coleção 'users'
-    //     const snapshot = await getDocs(collection(db, 'users'));
-        
-    //     // Percorre todos os documentos
-    //     const updatePromises = snapshot.docs.map(async (docSnap) => {
-    //       const userId = docSnap.id;
-    //       const userData = docSnap.data();
-    
-    //       // Converte o nome para maiúsculas
-    //       const nomeMaiusculo = userData.nome.toUpperCase();
-    
-    //       // Atualiza o documento com o nome em maiúsculas
-    //       const docRef = doc(db, 'users', userId);
-    //       return updateDoc(docRef, { nome: nomeMaiusculo });
-    //     });
-    
-    //     // Aguarda todas as atualizações serem concluídas
-    //     await Promise.all(updatePromises);
-    
-    //     toast.success('Nomes atualizados para maiúsculas com sucesso!', { className: 'toast-success' });
-    //   } catch (error) {
-    //     console.error('Erro ao atualizar nomes:', error);
-    //     toast.error('Erro ao atualizar nomes!', { className: 'toast-error' });
-    //   }
-    // }
-
-
-
-    // async function atualizarNomesNaoListados() {
-    //   try {
-    //     // Busca todos os documentos da coleção 'users'
-    //     const snapshot = await getDocs(collection(db, 'users'));
-        
-    //     // Percorre todos os documentos
-    //     const updatePromises = snapshot.docs.map(async (docSnap) => {
-    //       const userId = docSnap.id;
-    //       const userData = docSnap.data();
-    
-    //       // Verifica se o nome do usuário está na lista de candidatos
-    //       if (!nomesCandidatos.includes(userData.nome)) {
-    //         // Nome não encontrado na lista de candidatos, deve ser atualizado
-    //         const nomeCorrigido = "CANDIDATO NÃO ENCONTRADO - CORRIGIR";
-    
-    //         // Atualiza o documento com o novo nome
-    //         const docRef = doc(db, 'users', userId);
-    //         return updateDoc(docRef, { nome: nomeCorrigido });
-    //       }
-    //     });
-    
-    //     // Aguarda todas as atualizações serem concluídas
-    //     await Promise.all(updatePromises);
-    
-    //     toast.success('Nomes não listados atualizados com sucesso!', { className: 'toast-success' });
-    //   } catch (error) {
-    //     console.error('Erro ao atualizar nomes:', error);
-    //     toast.error('Erro ao atualizar nomes!', { className: 'toast-error' });
-    //   }
-    // }
-
-
-    // async function excluirUsuariosNaoEncontrados() {
-    //   const authInstance = getAuth();
-    
-    //   try {
-    //     // Obtém todos os usuários do Firestore
-    //     const snapshot = await getDocs(collection(db, 'users'));
-    //     const usuarios = snapshot.docs;
-    
-    //     for (const usuario of usuarios) {
-    //       const data = usuario.data();
-          
-    //       // Verifica se o nome do usuário é "CANDIDATO NÃO ENCONTRADO - CORRIGIR"
-    //       if (data.nome === 'CANDIDATO NÃO ENCONTRADO - CORRIGIR') {
-    //         const uid = usuario.id;
-    
-    //         // Excluindo o documento do Firestore
-    //         await deleteDoc(doc(db, 'users', uid));
-    //         console.log(`Documento do usuário com ID ${uid} excluído do Firestore.`);
-    
-    //         try {
-    //           // Exclui o usuário do Firebase Authentication usando o UID
-    //           const user = await authInstance.getUser(uid);
-    //           await deleteUser(user);
-    //           console.log(`Usuário com UID ${uid} excluído do Firebase Authentication.`);
-    //         } catch (authError) {
-    //           console.error(`Erro ao excluir usuário com UID ${uid}:`, authError);
-    //           toast.error(`Erro ao excluir usuário com UID ${uid}.`, { className: 'toast-error' });
-    //         }
-    
-    //         toast.info(`Usuário ${data.nome} excluído com sucesso.`, { className: 'toast-info' });
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.error('Erro ao excluir usuários:', error);
-    //     toast.error('Erro ao excluir usuários.', { className: 'toast-error' });
-    //   }
-    // }
-
-
-
-    // async function listarEmailsSemRegistro() {
-    //   try {
-    //     // Obtém todos os documentos do Firestore
-    //     const snapshot = await getDocs(collection(db, 'users'));
-    //     const usuariosFirestore = snapshot.docs.map(doc => ({
-    //       email: doc.data().email,
-    //       uid: doc.id
-    //     }));
-    
-    //     // Verifica quais usuários têm o email "CANDIDATO NÃO ENCONTRADO - CORRIGIR"
-    //     const emailsSemRegistro = usuariosFirestore
-    //       .filter(usuario => usuario.email === 'CANDIDATO NÃO ENCONTRADO - CORRIGIR')
-    //       .map(usuario => usuario.email);
-    
-    //     // Exibe os emails que não têm registro no Firestore
-    //     if (emailsSemRegistro.length > 0) {
-    //       console.log(`Emails sem registro no Firestore: ${emailsSemRegistro.join(', ')}`);
-    //       toast.info(`Emails sem registro: ${emailsSemRegistro.join(', ')}`, { className: 'toast-info' });
-    //     } else {
-    //       toast.success('Todos os emails possuem registro no Firestore.', { className: 'toast-success' });
-    //     }
-    //   } catch (error) {
-    //     console.error('Erro ao listar emails sem registro:', error);
-    //     toast.error('Erro ao listar emails sem registro.', { className: 'toast-error' });
-    //   }
-    // }
-
 
     const products = [
       {
@@ -930,38 +1456,91 @@ function AuthProvider({children}){
       loadUser();
     },[])
 
+  // Nome a partir do qual começar a atualização
+const nomeInicio = "OSVALDO GONZALEZ";
 
-    // async function signIn(email, password){
-    //    setLoadingAuth(true);
-    //    await signInWithEmailAndPassword(auth, email, password) 
-    //    .then( async(value)=>{
-    //       let uid = value.user.uid;
+    async function atualizarClassificacao() {
+      try {
+        // Obtém todos os candidatos do Firestore
+        const snapshot = await getDocs(collection(db, 'users'));
+        const candidatos = snapshot.docs.map(doc => ({
+          id: doc.id,
+          nome: doc.data().nome
+        }));
+    
+        // Encontra a posição de início na lista nomesCandidatos
+        const indiceInicio = nomesCandidatos.indexOf(nomeInicio);
+        if (indiceInicio === -1) {
+          throw new Error(`Nome "${nomeInicio}" não encontrado na lista de candidatos.`);
+        }
+    
+        // Cria um mapa de nomes para a classificação com base na lista nomesCandidatos
+        const mapaClassificacao = nomesCandidatos.slice(indiceInicio).reduce((acc, nome, index) => {
+          acc[nome] = index + 1 + indiceInicio; // A classificação começa no índice + 1
+          return acc;
+        }, {});
+    
+        // Atualiza a classificação dos candidatos no Firestore
+        for (const candidato of candidatos) {
+          const novaClassificacao = mapaClassificacao[candidato.nome];
+    
+          if (novaClassificacao) {
+            const docRef = doc(db, 'users', candidato.id);
+            await updateDoc(docRef, {
+              classificacao: novaClassificacao
+            });
+            console.log(`Classificação atualizada para o candidato ${candidato.nome} com ID ${candidato.id}.`);
+          }
+        }
+    
+        toast.success('Classificações atualizadas com sucesso!', { className: 'toast-success' });
+      } catch (error) {
+        console.error('Erro ao atualizar a classificação:', error);
+        toast.error('Erro ao atualizar a classificação.', { className: 'toast-error' });
+      }
+    }
+      
+    
 
-    //       const docRef = doc(db, "users", uid);
-    //       const docSnap = await getDoc(docRef);
 
-    //       let data = {
-    //         uid: uid,
-    //         nome: docSnap.data().nome,
-    //         email: value.user.email,
-    //         cidadeprimeira: docSnap.data().cidadeprimeira,
-    //         cidadesegunda: docSnap.data().cidadesegunda,
-    //         classificacao: docSnap.data().classificacao,
-    //         avatarUrl: docSnap.data().avatarUrl
-    //       };
-          
-    //       setUser(data);
-    //       storageUser(data);
-    //       setLoadingAuth(false);
-    //       toast.success("Bem-vindo de volta!");
-    //       navigate("/home");
-    //    })
-    //    .catch((error)=>{
-    //       console.log(error);
-    //       setLoadingAuth(false);
-    //       toast.error("Ops, algo deu errado!");
-    //    })
-    // }
+
+    async function verificarEAtualizarClassificacaoCandidatos() {
+      try {
+        const snapshot = await getDocs(collection(db, 'users'));
+        const usuarios = snapshot.docs;
+    
+        for (const usuario of usuarios) {
+          const data = usuario.data();
+          const nomeBanco = data.nome.toUpperCase(); // Nome no banco de dados em letras maiúsculas
+          const classificacaoBanco = data.classificacao;
+    
+          // Encontra o candidato na lista com base no nome
+          const candidato = nomeCandidatosClassificacao.find(
+            (candidato) => candidato.nome.toUpperCase() === nomeBanco
+          );
+    
+          if (candidato) {
+            if (candidato.classificacao !== classificacaoBanco) {
+              console.log(`Candidato ${nomeBanco} tem classificação incorreta (${classificacaoBanco}). Atualizando para ${candidato.classificacao}.`);
+    
+              // Atualiza a classificação no banco de dados
+              const docRef = doc(db, 'users', usuario.id);
+              await updateDoc(docRef, {
+                classificacao: candidato.classificacao
+              });
+    
+              console.log(`Classificação do candidato ${nomeBanco} atualizada para ${candidato.classificacao}.`);
+            } else {
+              console.log(`Candidato ${nomeBanco} já está com a classificação correta.`);
+            }
+          } else {
+            console.log(`Candidato ${nomeBanco} não encontrado na lista.`);
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao verificar e atualizar classificação dos candidatos:', error);
+      }
+    }
 
     async function signIn(email, password) {
       setLoadingAuth(true);
@@ -996,6 +1575,11 @@ function AuthProvider({children}){
         setUser(data);
         storageUser(data);
         toast.success("Bem-vindo de volta!");
+
+
+        // verificarEAtualizarClassificacaoCandidatos();
+
+
         navigate("/home");
       } catch (error) {
         console.log(error);
@@ -1005,54 +1589,6 @@ function AuthProvider({children}){
       }
     }
     
-
-    // async function signUp(email, password, name, classificacao, cidadeprimeira, cidadesegunda){
-    //     setLoadingAuth(true);
-    
-    //     await createUserWithEmailAndPassword(auth, email, password)
-    //     .then( async (value) => {
-    //         let uid = value.user.uid
-    
-    //         await setDoc(doc(db, "users", uid), {
-    //           nome: name,
-    //           classificacao: classificacao,
-    //           cidadeprimeira: cidadeprimeira,
-    //           cidadesegunda: cidadesegunda,
-    //           avatarUrl: null
-    //         })
-    //         .then( () => {
-    
-    //           let data = {
-    //             uid: uid,
-    //             nome: name,
-    //             email: value.user.email,
-    //             cidadeprimeira: cidadeprimeira,
-    //             cidadesegunda: cidadesegunda,
-    //             classificacao: classificacao,
-    //             avatarUrl: null
-    //           };
-    
-    //           setUser(data);
-    //           storageUser(data);
-    //           setLoadingAuth(false);
-    //           toast.success("Seja bem-vindo ao sistema!");
-    //           navigate("/home");
-    //         })
-    
-    
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //       if (error == "FirebaseError: Firebase: Error (auth/email-already-in-use)."){
-    //         toast.error("Erro: E-mail já utilizado.", { className: 'toast-error' });
-    //       }else{
-    //         toast.error("Erro: Verifique suas informação!", { className: 'toast-error' }); 
-    //       }
-         
-    //       setLoadingAuth(false);
-    //     })
-    
-    //   }
 
     async function signUp(email, password, name, classificacao, cidadeprimeira, cidadesegunda) {
       setLoadingAuth(true);
@@ -1068,6 +1604,14 @@ function AuthProvider({children}){
       }
     
       try {
+        // Verifica se o nome já está no banco de dados
+        const userSnapshot = await getDocs(query(collection(db, "users"), where("nome", "==", trimmedName)));
+        if (!userSnapshot.empty) {
+          toast.error(`Nome "${trimmedName}" já está cadastrado!`, { className: 'toast-error' });
+          setLoadingAuth(false);
+          return; // Interrompe o processo de cadastro
+        }
+    
         const value = await createUserWithEmailAndPassword(auth, email, password);
         const uid = value.user.uid;
     
@@ -1104,7 +1648,7 @@ function AuthProvider({children}){
         setLoadingAuth(false);
       }
     }
-    
+
     
     
       function storageUser(data){
