@@ -665,7 +665,7 @@ function AuthProvider({children}){
       "THAIS FERREIRA MENDES",
       "BEATRIZ CARVALHO SOTTOLANO",
       "JANAINA OLIVEIRA LACERDA",
-      "HAVANA FARDIM DA GAMA"
+      "HAYANA FARDIM DA GAMA",
     ];
 
     const nomeCandidatosClassificacao = [
