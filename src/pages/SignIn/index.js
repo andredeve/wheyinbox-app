@@ -50,6 +50,13 @@ export default function SignIn(){
           Não possuí uma conta? Cadastre-se
         </Link>
 
+        <Link
+         className='button-link'
+         to="/dashboard"
+        >
+          Ver o Ranking
+        </Link>
+
       </div>
     )
   }
