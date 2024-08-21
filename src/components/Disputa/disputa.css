@@ -1,4 +1,64 @@
-/* Estilo para o status da vaga */
+/* Estilo para o select */
+select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    width: 200px;
+    margin-top: 10px;
+}
+
+select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* Outros estilos mantidos conforme fornecido */
+.city-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.city-list li {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.ranking-content {
+    margin-top: 20px;
+}
+
+.ranking-subtitle {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.ranking-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ranking-item {
+    margin-bottom: 10px;
+}
+
+.ranking-position {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.candidate-name {
+    margin-right: 10px;
+}
+
+.candidate-classificacao {
+    margin-right: 10px;
+}
+
 .vaga-status.success {
     color: green;
     font-weight: bold;
@@ -9,76 +69,20 @@
     font-weight: bold;
 }
 
-/* Estilo para o select */
-.city-filter select {
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    margin-left: 10px;
-    background-color: #f8f8f8;
-    color: #333;
-}
-
-.city-filter select:focus {
-    border-color: #888;
-    outline: none;
-}
-
-.city-filter label {
-    font-size: 16px;
-    font-weight: bold;
-    margin-right: 10px;
-}
-
 .city-filter {
-    margin-bottom: 20px;
+    margin-top: 10px;
 }
 
-/* Estilo adicional para o ranking */
-.ranking-container {
-    padding: 20px;
+/* Estilo para a origem da cidade */
+.candidate-source {
+    margin-left: 10px;
+    font-style: italic;
 }
 
-.ranking-title {
-    font-size: 24px;
-    margin-bottom: 20px;
+.candidate-source.primeiraOpcao {
+    color: blue;
 }
 
-.ranking-column {
-    margin-bottom: 20px;
+.candidate-source.segundaOpcao {
+    color: orange;
 }
-
-.ranking-subtitle {
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-.ranking-city {
-    margin-bottom: 15px;
-}
-
-.city-name {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.ranking-list {
-    list-style: none;
-    padding: 0;
-}
-
-.ranking-item {
-    margin-bottom: 5px;
-}
-
-.ranking-position {
-    font-weight: bold;
-    margin-right: 5px;
-}
-
-.candidate-name {
-    margin-right: 10px;
-}
-
-

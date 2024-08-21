@@ -27,19 +27,20 @@ export default function Ranking({ fetchCityRanking }) {
       const primeiraOpcao = data.cidadeprimeira;
       const segundaOpcao = data.cidadesegunda;
       const nome = data.nome;
+      const classificacao = data.classificacao; // Supondo que há uma propriedade de classificação no banco de dados
 
       if (primeiraOpcao) {
         if (!candidatesByFirstCity[primeiraOpcao]) {
           candidatesByFirstCity[primeiraOpcao] = [];
         }
-        candidatesByFirstCity[primeiraOpcao].push({ name: nome });
+        candidatesByFirstCity[primeiraOpcao].push({ name: nome, classificacao, source: 'primeiraOpcao', position: candidatesByFirstCity[primeiraOpcao].length + 1 });
       }
 
       if (segundaOpcao) {
         if (!candidatesBySecondCity[segundaOpcao]) {
           candidatesBySecondCity[segundaOpcao] = [];
         }
-        candidatesBySecondCity[segundaOpcao].push({ name: nome });
+        candidatesBySecondCity[segundaOpcao].push({ name: nome, classificacao, source: 'segundaOpcao', position: candidatesBySecondCity[segundaOpcao].length + 1 });
       }
     });
 
@@ -59,16 +60,35 @@ export default function Ranking({ fetchCityRanking }) {
     setSelectedCity(e.target.value);
   };
 
+  const getFinalRanking = () => {
+    const cities = selectedCity ? [selectedCity] : Object.keys(cityVagas);
+    const finalRankings = {};
+
+    cities.forEach((city) => {
+      const firstOptionCandidates = firstOptionRankings[city] || [];
+      const secondOptionCandidates = secondOptionRankings[city] || [];
+
+      const combinedCandidates = [...firstOptionCandidates, ...secondOptionCandidates]
+        .sort((a, b) => a.classificacao - b.classificacao || a.position - b.position); // Ordenar por classificação e posição
+
+      finalRankings[city] = combinedCandidates;
+    });
+
+    return finalRankings;
+  };
+
   return (
     <div className="ranking-container">
       <h1 className="ranking-title">Ranking dos Candidatos por Cidade</h1>
       
-      <div>
-        <h5 className="ranking-title">
-          Dourados: 120 - Três Lagoas: 120 - Aquidauana: 50 - Nova Andradina: 50 - Coxim: 55 - Jardim: 55
-        </h5>
+      <div className="city-list">
+        <ul>
+          {Object.entries(cityVagas).map(([city, vagas]) => (
+            <li key={city}>{city}: {vagas}</li>
+          ))}
+        </ul>
       </div>
-      
+
       {/* Select para filtrar por cidade */}
       <div className="city-filter">
         <label htmlFor="citySelect">Selecione a cidade: </label>
@@ -83,51 +103,28 @@ export default function Ranking({ fetchCityRanking }) {
       </div>
 
       <div className="ranking-content">
-        {/* Seção para a primeira opção */}
-        <div className="ranking-column">
-          <h4 className="ranking-subtitle">1ª Opção</h4>
-          {Object.keys(firstOptionRankings)
-            .filter((city) => !selectedCity || city === selectedCity)
-            .map((city, index) => (
-              <div key={index} className="ranking-city">
-                <h5 className="city-name">{city}</h5>
-                <ul className="ranking-list">
-                  {firstOptionRankings[city].map((candidate, idx) => (
-                    <li key={idx} className="ranking-item">
-                      <span className="ranking-position">{idx + 1}º</span>
-                      <span className="candidate-name">{candidate.name}</span>
-                      <span className={`vaga-status ${verificarVagaPorPosicao(idx + 1, cityVagas[city]) ? 'success' : 'fail'}`}>
-                        {verificarVagaPorPosicao(idx + 1, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga'}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-          ))}
-        </div>
-
-        {/* Seção para a segunda opção */}
-        <div className="ranking-column">
-          <h4 className="ranking-subtitle">2ª Opção</h4>
-          {Object.keys(secondOptionRankings)
-            .filter((city) => !selectedCity || city === selectedCity)
-            .map((city, index) => (
-              <div key={index} className="ranking-city">
-                <h5 className="city-name">{city}</h5>
-                <ul className="ranking-list">
-                  {secondOptionRankings[city].map((candidate, idx) => (
-                    <li key={idx} className="ranking-item">
-                      <span className="ranking-position">{idx + 1}º</span>
-                      <span className="candidate-name">{candidate.name}</span>
-                      <span className={`vaga-status ${verificarVagaPorPosicao(idx + 1, cityVagas[city]) ? 'success' : 'fail'}`}>
-                        {verificarVagaPorPosicao(idx + 1, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga'}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-          ))}
-        </div>
+        {Object.keys(getFinalRanking()).map((city, index) => (
+          <div key={index} className="ranking-column">
+            <h4 className="ranking-subtitle">{city}</h4>
+            <ul className="ranking-list">
+              {getFinalRanking()[city].map((candidate, idx) => (
+                <li key={idx} className="ranking-item">
+                  <span className="ranking-position">{idx + 1}º</span>
+                  <span className="candidate-name">{candidate.name}</span>
+                  <span className="candidate-classificacao">
+                    Classificação: {candidate.classificacao}
+                  </span>
+                  <span className={`vaga-status ${verificarVagaPorPosicao(candidate.position, cityVagas[city]) ? 'success' : 'fail'}`}>
+                    {verificarVagaPorPosicao(candidate.position, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga'}
+                  </span>
+                  <span className={`candidate-source ${candidate.source}`}>
+                    {candidate.source === 'primeiraOpcao' ? 'Primeira Opção' : 'Segunda Opção'}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   );
