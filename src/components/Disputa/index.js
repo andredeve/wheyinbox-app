@@ -27,43 +27,32 @@ export default function Ranking({ fetchCityRanking }) {
       const primeiraOpcao = data.cidadeprimeira;
       const segundaOpcao = data.cidadesegunda;
       const nome = data.nome;
-      const classificacao = data.classificacao;
 
       if (primeiraOpcao) {
         if (!candidatesByFirstCity[primeiraOpcao]) {
           candidatesByFirstCity[primeiraOpcao] = [];
         }
-        candidatesByFirstCity[primeiraOpcao].push({ name: nome, classificacao });
+        candidatesByFirstCity[primeiraOpcao].push({ name: nome });
       }
 
       if (segundaOpcao) {
         if (!candidatesBySecondCity[segundaOpcao]) {
           candidatesBySecondCity[segundaOpcao] = [];
         }
-        candidatesBySecondCity[segundaOpcao].push({ name: nome, classificacao });
+        candidatesBySecondCity[segundaOpcao].push({ name: nome });
       }
     });
 
-    const sortedFirstOptionRankings = {};
-    for (const city in candidatesByFirstCity) {
-      sortedFirstOptionRankings[city] = candidatesByFirstCity[city].sort((a, b) => a.classificacao - b.classificacao);
-    }
-
-    const sortedSecondOptionRankings = {};
-    for (const city in candidatesBySecondCity) {
-      sortedSecondOptionRankings[city] = candidatesBySecondCity[city].sort((a, b) => a.classificacao - b.classificacao);
-    }
-
-    setFirstOptionRankings(sortedFirstOptionRankings);
-    setSecondOptionRankings(sortedSecondOptionRankings);
+    setFirstOptionRankings(candidatesByFirstCity);
+    setSecondOptionRankings(candidatesBySecondCity);
   }
 
   useEffect(() => {
     fetchRanking();
   }, [fetchCityRanking]);
 
-  const verificarVaga = (classificacao, vagasDisponiveis) => {
-    return classificacao <= vagasDisponiveis;
+  const verificarVagaPorPosicao = (posicao, vagasDisponiveis) => {
+    return posicao <= vagasDisponiveis;
   };
 
   const handleCityChange = (e) => {
@@ -107,11 +96,8 @@ export default function Ranking({ fetchCityRanking }) {
                     <li key={idx} className="ranking-item">
                       <span className="ranking-position">{idx + 1}º</span>
                       <span className="candidate-name">{candidate.name}</span>
-                      <span className="candidate-classificacao">
-                        Classificação: {candidate.classificacao}
-                      </span>
-                      <span className={`vaga-status ${verificarVaga(candidate.classificacao, cityVagas[city]) ? 'success' : 'fail'}`}>
-                        {verificarVaga(candidate.classificacao, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga'}
+                      <span className={`vaga-status ${verificarVagaPorPosicao(idx + 1, cityVagas[city]) ? 'success' : 'fail'}`}>
+                        {verificarVagaPorPosicao(idx + 1, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga'}
                       </span>
                     </li>
                   ))}
@@ -133,11 +119,8 @@ export default function Ranking({ fetchCityRanking }) {
                     <li key={idx} className="ranking-item">
                       <span className="ranking-position">{idx + 1}º</span>
                       <span className="candidate-name">{candidate.name}</span>
-                      <span className="candidate-classificacao">
-                        Classificação: {candidate.classificacao}
-                      </span>
-                      <span className={`vaga-status ${verificarVaga(candidate.classificacao, cityVagas[city]) ? 'success' : 'fail'}`}>
-                        {verificarVaga(candidate.classificacao, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga'}
+                      <span className={`vaga-status ${verificarVagaPorPosicao(idx + 1, cityVagas[city]) ? 'success' : 'fail'}`}>
+                        {verificarVagaPorPosicao(idx + 1, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga'}
                       </span>
                     </li>
                   ))}

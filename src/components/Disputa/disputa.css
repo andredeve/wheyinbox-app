@@ -1,10 +1,82 @@
+/* Estilo para o status da vaga */
 .vaga-status.success {
     color: green;
     font-weight: bold;
-  }
-  
-  .vaga-status.fail {
+}
+
+.vaga-status.fail {
     color: red;
     font-weight: bold;
-  }
-  
+}
+
+/* Estilo para o select */
+.city-filter select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-left: 10px;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.city-filter select:focus {
+    border-color: #888;
+    outline: none;
+}
+
+.city-filter label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.city-filter {
+    margin-bottom: 20px;
+}
+
+/* Estilo adicional para o ranking */
+.ranking-container {
+    padding: 20px;
+}
+
+.ranking-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.ranking-column {
+    margin-bottom: 20px;
+}
+
+.ranking-subtitle {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.ranking-city {
+    margin-bottom: 15px;
+}
+
+.city-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.ranking-list {
+    list-style: none;
+    padding: 0;
+}
+
+.ranking-item {
+    margin-bottom: 5px;
+}
+
+.ranking-position {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.candidate-name {
+    margin-right: 10px;
+}

@@ -2,6 +2,7 @@ import {Routes, Route} from 'react-router-dom';
 import Home from '../pages/Home';
 import RankingPage from '../pages/RankingPage';
 import RankingPorCidade from '../pages/RankingClassificacaoPage';
+import Disputa from '../pages/DisputaPage';
 import Register from '../pages/Register';
 import SignIn from '../pages/SignIn';
 import Private from './Private';
@@ -14,6 +15,7 @@ function RoutesApp(){
             <Route path='/home' element={ <Private><Home/></Private>}/>
             <Route path='/ranking-das-cidades' element={ <Private><RankingPage/></Private>}/>
             <Route path='/ranking-por-cidades-por-classificado' element={ <Private><RankingPorCidade/></Private>}/>
+            <Route path='/disputa' element={ <Private><Disputa/></Private>}/>
         </Routes>
     )
 }

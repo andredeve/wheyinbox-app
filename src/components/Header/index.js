@@ -32,7 +32,13 @@ export default function Header() {
                             <Link to="/ranking-por-cidades-por-classificado">Ranking dos Candidatos por Cidade</Link>
                         </li>
                         <li>
-                            <Link to="/profile">Documentos</Link>
+                            <Link to="/disputa">Disputa</Link>
+                        </li>
+                        <li>
+                            <Link to="/documentos">Documentos</Link>
+                        </li>
+                        <li>
+                            <Link to="/profile">Perfil</Link>
                         </li>
                     </ul>
                 </nav>
