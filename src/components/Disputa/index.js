@@ -95,19 +95,27 @@ export default function Ranking({ fetchCityRanking }) {
           noFirstOption: verificarVagaPorPosicao(index + 1, cityVagas[city]) ? 'Não' : 'Sim'
         }));
 
-      // Filtrar candidatos que não conseguiram vaga na primeira opção
+      // Candidatos que não conseguiram vaga na primeira opção
       const noFirstOptionCandidates = successfulFirstOptionCandidates
         .filter(candidate => candidate.noFirstOption === 'Sim');
 
-      // Candidatos da segunda opção que são candidatos válidos (não conseguiram vaga na primeira opção)
-      const eligibleForSecondOption = secondOptionCandidates
-        .filter(candidate => !successfulFirstOptionCandidates.some(c => c.name === candidate.name))
+      // Combinar candidatos que não conseguiram na primeira opção com os candidatos da segunda opção
+      const combinedCandidates = [
+        ...secondOptionCandidates,
+        ...noFirstOptionCandidates
+      ];
+
+      // Ordenar candidatos combinados por classificação
+      const sortedCombinedCandidates = combinedCandidates.sort((a, b) => a.classificacao - b.classificacao);
+
+      // Identificar candidatos que conseguiram vaga na segunda opção
+      const successfulCombinedCandidates = sortedCombinedCandidates
         .map((candidate, index) => ({
           ...candidate,
           finalPosition: index + 1,
           vagasDisponiveis: cityVagas[city],
           status: verificarVagaPorPosicao(index + 1, cityVagas[city]) ? 'Conseguiu a vaga' : 'Não conseguiu a vaga',
-          noFirstOption: 'Sim'
+          noFirstOption: candidate.source === 'primeiraOpcao' ? 'Sim' : candidate.noFirstOption
         }));
 
       // Garantir que candidatos que conseguiram vaga em uma opção não sejam listados na outra
@@ -116,8 +124,8 @@ export default function Ranking({ fetchCityRanking }) {
         .sort((a, b) => a.classificacao - b.classificacao);
 
       // Candidatos que não conseguiram vaga em nenhuma opção
-      const noVagasCandidates = secondOptionCandidates
-        .filter(candidate => !successfulFirstOptionCandidates.some(c => c.name === candidate.name) && !eligibleForSecondOption.some(c => c.name === candidate.name))
+      const noVagasCandidates = sortedCombinedCandidates
+        .filter(candidate => !successfulFirstOptionCandidates.some(c => c.name === candidate.name))
         .map((candidate, index) => ({
           ...candidate,
           finalPosition: index + 1,
@@ -195,7 +203,6 @@ export default function Ranking({ fetchCityRanking }) {
           ))}
         </div>
 
-        {/* Lista fixa ao lado do ranking com candidatos que não conseguiram vaga em nenhuma opção */}
         <div className="no-vagas-column">
           <h4 className="ranking-subtitle">Candidatos Sem Vaga</h4>
           {Object.keys(noVagasList).map((city, index) => (
