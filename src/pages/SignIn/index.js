@@ -57,6 +57,13 @@ export default function SignIn(){
           Ver o Ranking
         </Link>
 
+        <Link
+         className='button-link'
+         to="/bizus"
+        >
+          Bizus
+        </Link>
+
       </div>
     )
   }
